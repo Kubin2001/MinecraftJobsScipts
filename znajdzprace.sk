@@ -1,0 +1,432 @@
+command /praca:
+  trigger:
+    play sound "entity.experience_orb.pickup" to player
+    open chest inventory with 3 rows named "&2&lWybierz Pracę" to player
+    wait 1 tick
+    set slot 1 of player's current inventory to iron pickaxe named "&4&lGórnik" with lore "&7Zarabia za kopanie kamienia i jego pochodnych"
+	
+    set slot 3 of player's current inventory to bow named "&4&lŁowca" with lore "&7Zarabia za zabijanie wrogich mobów"
+	
+    set slot 5 of player's current inventory to brick named "&4&lBudowniczy" with lore "&7Zarabia za stawianie bloków"
+	
+    set slot 7 of player's current inventory to wooden hoe named "&4&lFarmer" with lore "&7Zarabia za zbieranie plonów"
+	
+    set slot 19 of player's current inventory to book of mending named "&4&lMag" with lore "&7Zarabia za enchantowanie i zabijanie innych magów"
+    
+    set slot 21 of player's current inventory to raw beef named "&4&lRzeźnik" with lore "&7Zarabia za zabijanie zwierząt i sprzedawanie mięsa"
+    
+    set slot 23 of player's current inventory to diamond sword named "&4&lZabójca" with lore "&7Zarabia za zabijanie graczy"
+    
+    set slot 25 of player's current inventory to leather boots named "&4&lOdkrywca" with lore "&7Zarabia za odkrywanie mapy"
+	
+    set slot 12 of player's current inventory to iron ingot named "&4&lCodzienny bonus pracy" with lore "Wymagany 10 poziom pracy"
+			
+    set slot 14 of player's current inventory to gold ingot named "&4&lPięciodniowy bonus pracy" with lore "Wymagany 50 poziom pracy"
+	
+    set slot 9 of player's current inventory to diamond named "&4&lUmiejętność" with lore "Wymagany 25 poziom pracy"
+	
+    set slot 17 of player's current inventory to chest named "&4&lKompania Handlowa" with lore "Wymagany 60 poziom pracy"
+	
+    if {jobxp::%player's uuid%} is not set:
+      set {jobxp::%player's uuid%} to 0
+      set {jobrank::%player's uuid%} to 1
+      set {joblevel::%player's uuid%} to 1
+      set {cooldown1::%player's uuid%} to 1 day from now
+      set {cooldown2::%player's uuid%} to 5 day from now
+      set {cooldown3::%player's uuid%} to 2 hours from now
+
+on inventory click:
+    if name of event-inventory is "&2&lWybierz Pracę":
+        if the event-inventory slot is iron pickaxe named "&4&lGórnik" with lore "&7Zarabia za kopanie kamienia i jego pochodnych":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 1
+                set {blockBreaks::%player's uuid%} to 0
+                send "&7Od teraz pracujesz jako górnik"
+				
+            else if {playerjob::%player's uuid%} is equal to 1:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako gornik"
+					
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+				
+        else if the event-inventory slot is bow named "&4&lŁowca" with lore "&7Zarabia za zabijanie wrogich mobów":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 2
+                set {mobkills::%player's uuid%} to 0
+                send "&7Od teraz pracujesz jako lowca"
+				
+            else if {playerjob::%player's uuid%} is equal to 2:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako łowca"
+			
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+				
+        else if the event-inventory slot is brick named "&4&lBudowniczy" with lore "&7Zarabia za stawianie bloków":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 3
+                set {blockPleaced::%player's uuid%} to 0
+                send "&7Od teraz pracujesz jako budowniczy"
+				
+            else if {playerjob::%player's uuid%} is equal to 3:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako budowniczy"
+					
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+				
+        else if the event-inventory slot is wooden hoe named "&4&lFarmer" with lore "&7Zarabia za zbieranie plonów":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 4
+                set {blockFarmed::%player's uuid%} to 0
+                execute console command "lp user %player% permission set essentials.warps.skupupraw true"
+                send "&7Od teraz pracujesz jako farmer"
+                send "&7Od teraz masz dostęp do /warp skupupraw"
+				
+            else if {playerjob::%player's uuid%} is equal to 4:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako farmer"
+					
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+				
+        else if the event-inventory slot is book of mending named "&4&lMag" with lore "&7Zarabia za enchantowanie i zabijanie innych magów":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 5
+                set {mana::%player's uuid%} to 0
+                set {meditate::%player's uuid%} to false
+                send "&7Od teraz pracujesz jako mag"
+				
+            else if {playerjob::%player's uuid%} is equal to 5:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako mag"
+					
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+                
+        else if the event-inventory slot is raw beef named "&4&lRzeźnik" with lore "&7Zarabia za zabijanie zwierząt i sprzedawanie mięsa":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 6
+                set {animals_killed::%player's uuid%} to 0
+                execute console command "lp user %player% permission set essentials.warps.skupmiesa true"
+                send "&7Od teraz pracujesz jako rzeźnik"
+                send "&7 Od teraz masz dostęp do /warp skupmiesa"
+				
+            else if {playerjob::%player's uuid%} is equal to 6:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako rzeźnik"
+					
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+                
+        else if the event-inventory slot is diamond sword named "&4&lZabójca" with lore "&7Zarabia za zabijanie graczy":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 7
+                send "&7Od teraz pracujesz jako zabójca"
+                send "&7Masz dostęp do komedny /zasadzka"
+				
+            else if {playerjob::%player's uuid%} is equal to 7:
+                play sound "entity.horse.hurt" to player
+                send "&7 Już pracujesz jako zabójca"
+					
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+				
+        else if the event-inventory slot is leather boots named "&4&lOdkrywca" with lore "&7Zarabia za odkrywanie mapy":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 8
+                send "&7Od teraz pracujesz jako odkrywca"
+                send "&7Masz dostęp do komedny /podroz"
+                
+            else if {playerjob::%player's uuid%} is equal to 8:
+                play sound "entity.horse.hurt" to player
+                send "&7Już pracujesz jako odkrywca"
+                    
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+                
+        else if the event-inventory slot is iron ingot named "&4&lCodzienny bonus pracy" with lore "Wymagany 10 poziom pracy":
+            cancel event
+            if {jobrank::%player's uuid%} is greater than 9:
+                if {cooldown1::%player's uuid%} < now:
+                    if {playerjob::%player's uuid%} is equal to 1:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 diamond pickaxe
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 2:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 bow
+                        give player 64 arrow
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+						
+                    else if {playerjob::%player's uuid%} is equal to 3:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 16 tnt
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 4:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 16 golden carrot
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                        
+                        
+                    else if {playerjob::%player's uuid%} is equal to 5:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 16 experience bottle
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 6:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 32 steak
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 7:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 5 creeper spawn egg 
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+						
+                    else if {playerjob::%player's uuid%} is equal to 8:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 64 firework rocket
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                    set {cooldown1::%player's uuid%} to 24 hours from now
+                else: 
+                    set {_waited} to difference between {cooldown1::%player's uuid%} and now
+                    send "&4Musisz poczekać jeszcze: %{_waited}%"
+                    play sound "entity.horse.hurt" to player
+                    
+            else: 
+                send "&4Musisz mieć przynajmniej 10 poziom pracy aby skorzystać z tego bonusu"
+                play sound "entity.horse.hurt" to player
+                
+        else if the event-inventory slot is gold ingot named "&4&lPięciodniowy bonus pracy" with lore "Wymagany 50 poziom pracy":
+            cancel event
+            if {jobrank::%player's uuid%} is greater than 49:
+                if {cooldown2::%player's uuid%} < now:
+                    if {playerjob::%player's uuid%} is equal to 1:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 netherite ingot
+                        send "&6 Odebrałeś bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 2:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 bow of mending 1 and infinity 1 named "&4&lŁuk łowcy"
+                        send "&6 Odebrałeś bonus!"
+                    
+                    else if {playerjob::%player's uuid%} is equal to 3:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 netherite block
+                        give player 5 diamond block
+                        send "&6 Odebrałeś bonus!"
+						
+                    else if {playerjob::%player's uuid%} is equal to 4:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 cookie of mending named "&6&lMagiczne ciastko"
+                        send "&6 Odebrałeś bonus!"
+                        
+                        
+                    else if {playerjob::%player's uuid%} is equal to 5:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 2 potion named "&b&lMikstrura many"
+                        send "&6 Odebrałeś bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 6:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 netherite axe of looting 4
+                        send "&6 Odebrałeś bonus!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 7:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 netherite sword of sharpness 5 and looting 3 named "&4&lZatrute ostrze"
+                        send "&6 Odebrałeś bonus!"
+                    
+                    else if {playerjob::%player's uuid%} is equal to 8:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 netherite boots of feather falling 5 named "&4&lButy szybkości"
+                        send "&6 Odebrałeś bonus!"
+                    set {cooldown2::%player's uuid%} to 5 days from now
+                    
+                else: 
+                    set {_waited} to difference between {cooldown2::%player's uuid%} and now
+                    send "&4Musisz poczekać jeszcze: %{_waited}%"
+                    play sound "entity.horse.hurt" to player
+                    
+            else: 
+                send "&4Musisz mieć 50 poziom pracy aby skorzystać z tego bonusu"
+                play sound "entity.horse.hurt" to player
+                
+        else if the event-inventory slot is diamond named "&4&lUmiejętność" with lore "Wymagany 25 poziom pracy":
+            cancel event
+            if {jobrank::%player's uuid%} is greater than 24:
+                if {cooldown3::%player's uuid%} < now:
+                    if {playerjob::%player's uuid%} is equal to 1:
+                        play sound "entity.experience_orb.pickup" to player
+                        apply haste 2 to player for 5 minutes
+                        send "&6 Użyłeś umiejętności!"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 2:
+                        if player is in world "world_nether":
+                            send "&6 Użyłeś umiejętności!"
+                            set {_x} to random integer from 0 to 4
+                            if {_x} is equal to 0:
+                                play sound "entity.ender_dragon.ambient" to player
+                                send "&4&lWalczysz z niszycielem nie stój w miejscu!!!"
+                                spawn piglin brute at player
+                                set name of the last spawned piglin brute to "&4&lNiszczyciel"
+                                apply jump boost 4 to the last spawned piglin brute for 9999 minutes
+                                apply speed 1 to the last spawned piglin brute for 9999 minutes
+                                apply health boost 5 to the last spawned piglin brute for 9999 minutes
+                                apply strength 1 to the last spawned piglin brute for 9999 minutes
+                                apply regeneration 5 to the last spawned piglin brute for 40 second
+                                set the helmet of last spawned piglin brute to netherite helmet of blast protection 5
+                                set the chestplate of last spawned piglin brute to golden chestplate of blast protection 5
+                                set the leggings of last spawned piglin brute to golden leggings of blast protection 5
+                                set the boots of last spawned piglin brute to golden boots of blast protection 5
+                                
+                            else if {_x} is equal to 1:
+                                play sound "entity.ender_dragon.ambient" to player
+                                send "&4&lWalczysz z pożeraczem nie daj mu uciec!!!"
+                                spawn enderman at player
+                                set name of the last spawned enderman to "&4&lPożeracz"
+                                apply jump boost 4 to the last spawned enderman for 9999 minutes
+                                apply speed 1 to the last spawned enderman for 9999 minutes
+                                apply health boost 20 to the last spawned enderman for 9999 minutes
+                                apply fire resistance 1 to the last spawned enderman for 9999 minutes
+                                apply regeneration 1 to the last spawned enderman for 9999 minutes
+                                
+                            else if {_x} is equal to 2:
+                                play sound "entity.ender_dragon.ambient" to player
+                                send "&4&lWalczysz ze zjawą uwaga pod nogi!!!"
+                                spawn vex at player
+                                set name of the last spawned vex to "&4&lZjawa"
+                                apply strength 2 to the last spawned vex for 9999 minutes
+                                apply health boost 20 to the last spawned vex for 9999 minutes
+                                apply fire resistance 1 to the last spawned vex for 9999 minutes
+                                apply resistance 2 to the last spawned vex for 9999 minutes
+                                set the tool of the last spawned vex to iron sword of fire aspect 3
+                                apply regeneration 1 to the last spawned vex for 40 second
+                            
+                            else if {_x} is equal to 3:
+                                play sound "entity.ender_dragon.ambient" to player
+                                send "&4&lWalczysz z upadłym obyś miał tarczę!!!"
+                                spawn wither skeleton at player
+                                set name of the last spawned wither skeleton to "&4&lUpadły"
+                                set the helmet of last spawned wither skeleton to netherite helmet of protection 5 ,thorns 3 and curse of vanishing 1
+                                set the chestplate of last spawned wither skeleton to netherite chestplate of protection 5,thorns 3 and curse of vanishing 1
+                                set the leggings of last spawned wither skeleton to netherite leggings of protection 5,thorns 3 and curse of vanishing 1
+                                set the boots of last spawned wither skeleton to netherite boots of protection 5,thorns 3 and curse of vanishing 1
+                                apply speed 2 to the last spawned wither skeleton for 9999 minutes
+                                apply health boost 30 to the last spawned wither skeleton for 9999 minutes
+                                set the tool of the last spawned wither skeleton to iron sword of sharpness 4 ,knockback 2 ,curse of vanishing 1 and fire aspect 2
+                                apply poison 4 to the last spawned wither skeleton for 40 second
+                                
+                            else if {_x} is equal to 4:
+                                play sound "entity.ender_dragon.ambient" to player
+                                send "&4&lWalczysz z nekromantą nie pozwól niczego przywołać!!!"
+                                spawn hoglin at player
+                                set {_hoglin} to last spawned hoglin
+                                spawn evoker at location of {_hoglin}
+                                make last spawned evoker ride {_hoglin}
+                                set name of the last spawned evoker to "&4&lNekromanta"
+                                apply resistance 4 to the last spawned hoglin for 300 minutes
+                                apply health boost 10 to the last spawned hoglin for 300 minutes
+                                apply speed 3 to the last spawned hoglin for 300 minutes
+                                apply resistance 3 to the last spawned evoker for 300 minutes
+                                apply health boost 10 to the last spawned evoker for 300 minutes
+                                set helmet of the last spawned evoker to diamond helmet
+                                set chestplate of the last spawned evoker to diamond chestplate
+                                set leggings of the last spawned evoker to diamond leggings
+                                set boots of the last spawned evoker to diamond boots
+                        else:
+                            send "&4Musisz być w netherze aby odbyć walkę"
+                            play sound "entity.horse.hurt" to player
+                    
+                    else if {playerjob::%player's uuid%} is equal to 3:
+                        play sound "entity.experience_orb.pickup" to player
+                        send "&6 Użyłeś umiejętności!"
+                        loop 5 times:
+                            set {_loc} to location of targeted block
+                            summon tnt at {_loc}
+                            wait 2 second
+		
+                    else if {playerjob::%player's uuid%} is equal to 4:
+                        play sound "entity.experience_orb.pickup" to player
+                        apply hero of the village 5 to player for 15 minutes
+                        send "&6 Użyłeś umiejętności!"
+                        
+                        
+                    else if {playerjob::%player's uuid%} is equal to 5:
+                        play sound "entity.horse.hurt" to player
+                        send "&4 Mag nie ma dodatkowych umiejętności"
+                        set {_mageflag} to true
+                        
+                    else if {playerjob::%player's uuid%} is equal to 6:
+                        play sound "entity.experience_orb.pickup" to player
+                        send "&6 Użyłeś umiejętności!"
+                        set {_loc} to location of targeted block
+                        loop 3 times:
+                            spawn mooshroom at {_loc}
+                            wait 2 second
+						
+                    else if {playerjob::%player's uuid%} is equal to 7:
+                        play sound "entity.horse.hurt" to player
+                        send "&4&lZamiast umiejętności użyj /zasadzka"
+                        
+                    else if {playerjob::%player's uuid%} is equal to 8:
+                        play sound "entity.experience_orb.pickup" to player
+                        send "&b&lZresetowano aktualną lokalizację możesz wybrać nową"
+                        delete {loc %player's uuid%}
+                    if {_mageflag} is not set:
+                        set {cooldown3::%player's uuid%} to 2 hours from now
+						
+                    
+                else: 
+                    set {_waited} to difference between now and {cooldown3::%player's uuid%}
+                    send "&4Musisz poczekać jeszcze: %{_waited}%"
+                    play sound "entity.horse.hurt" to player
+                    
+            else: 
+                send "&4Musisz mieć 25 poziom pracy aby skorzystać z tej umiejętności"
+                play sound "entity.horse.hurt" to player
+		
+		
+				
+        
+        else if the event-inventory slot is chest named "&4&lKompania Handlowa" with lore "Wymagany 60 poziom pracy":
+            cancel event
+            if {jobrank::%player's uuid%} is greater than 59:
+                send "&bWpisz /utworz <Nazwa> aby utworzyć kompanię" to player
+                play sound "entity.experience_orb.pickup" to player
+            else:
+                send "&4Musisz mieć przynajmniej 60 poziom pracy" to player
+                play sound "entity.horse.hurt" to player
+        
+        else:
+            play sound "entity.horse.hurt" to player
+            cancel event

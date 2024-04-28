@@ -1,0 +1,51 @@
+command /opuscprace:
+	trigger:
+		if {company::%player's uuid%} is not set:
+			if {playerjob::%player's uuid%} is equal to 1:
+				send "&7Już nie pracujesz jako górnik!!!"
+				delete {blockBreaks::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 2:
+				send "&7Już nie pracujesz jako łowca!!!"
+				delete {mobkills::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 3:
+				send "&7Już nie pracujesz jako budowniczy!!!"
+				delete {blockPleaced::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 4:
+				send "&7Już nie pracujesz jako farmer!!!"
+				execute console command "lp user %player% permission unset essentials.warps.skupupraw"
+				delete {blockFarmed::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 5:
+				send "&7Już nie pracujesz jako mag!!!"
+				delete {mana::%player's uuid%}
+				delete {meditate::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 6:
+				send "&7Już nie pracujesz jako rzeźnik!!!"
+				execute console command "lp user %player% permission unset essentials.warps.skupmiesa"
+				delete {animals_killed::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 7:
+				send "&7Już nie pracujesz jako zabójca!!!"
+				
+			else if {playerjob::%player's uuid%} is equal to 8:
+				send "&7Już nie pracujesz jako odkrywca!!!"
+				delete {loc %player's uuid%}
+				
+			else:
+				send "&7Nie jesteś aktualnie zatrudniony!!!"
+			if {playerjob::%player's uuid%} is set:
+				set {jobrank::%player's uuid%} to {jobrank::%player's uuid%} - 10
+				set {jobxp::%player's uuid%} to 0
+				set {joblevel::%player's uuid%} to {joblevel::%player's uuid%} - 1
+				if {jobrank::%player's uuid%} < 1:
+					set {jobrank::%player's uuid%} to 1
+				if {joblevel::%player's uuid%} < 1:
+					set {joblevel::%player's uuid%} to 1
+				delete {playerjob::%player's uuid%}
+		else:
+			send "&4&lNie możesz opuścić pracy gdy jesteś członkiem kompani handlowej"
+			play sound "entity.horse.hurt" to player

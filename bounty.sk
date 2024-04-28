@@ -1,0 +1,69 @@
+command /wyznacznagrode <player> <number>:
+	permission: skript.wyznacznagrode
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if arg-2 is set:
+			if arg-2 is between 50 and 500:
+				if player's balance >= arg-2:
+					if {playerbounty::%arg-1's uuid%} is not set:
+						set {playerbounty::%arg-1's uuid%} to 0
+					add arg-2 to {playerbounty::%arg-1's uuid%}
+					broadcast "&4&l%player% &6wyznaczył nagrodę o wysokości &4&l%arg-2% &6za głowę &4&l %arg-1% &6łączna nagroda wynosi&4&l %{playerbounty::%arg-1's uuid%}%"
+					play sound "entity.shulker_bullet.hit" to arg-1
+					set player's balance to player's balance - arg-2
+				else:
+					send "&4Nie stać cie na wyznaczenie tej nagrody"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4Jednorazowa nagroda musi wynosić pomiędzy 50 a 500"
+				play sound "entity.horse.hurt" to player
+		else:
+			send "&4Błąd coś poszło nie tak w przypadku dalszych błędów skontaktuj się z adminem"
+			play sound "entity.horse.hurt" to player
+			
+command /zobacznagrode <player>:
+	permission: skript.zobacznagrode
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {playerbounty::%arg-1's uuid%} is not set:
+			play sound "entity.experience_orb.pickup" to player
+			send "&6Ten gracz nie ma wyznaczonej nagrody"
+		else: 
+			play sound "entity.experience_orb.pickup" to player
+			send "&6Nagroda za zabicie tego gracza wynosi &4&l%{playerbounty::%arg-1's uuid%}%"
+
+
+command /rankingnagrod:
+	permission: skript.rankingnagrod
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		set {_number} to 0
+		loop all players:
+			set {_uuid} to uuid of loop-player
+			if {playerbounty::%{_uuid}%} is set:
+				add loop-player's name to {_sortednames::*}
+				set {_bounty} to {playerbounty::%{_uuid}%}
+				set {_name} to loop-player's name
+				add "&6&l%{_name}%: &4&l%{_bounty}%" to {_bountyList::*}
+		
+		send "&6&lAktualne nagrody za głowy graczy online"
+		loop {_bountyList::*}:
+			add 1 to {_number}
+			send "&6&l%{_bountyList::%{_number}%}% "
+		
+on death of player:
+	attacker is a player
+	if attacker is not victim:
+		if {playerbounty::%victim's uuid%} is set:
+			set {_total} to {playerbounty::%victim's uuid%} * 0.5
+			if {playerjob::%attacker's uuid%} is equal to 7:
+				set attacker's balance to attacker's balance + {playerbounty::%victim's uuid%}
+				delete {playerbounty::%victim's uuid%}
+			else:
+				set attacker's balance to attacker's balance + {_total}
+				delete {playerbounty::%victim's uuid%}
+			broadcast "&4&l%attacker% &6zabił &4&l%victim% &6i otrzymał nagrodę za jego głowę w wysokości &4&l%{_total}%"
+			
+				
+				
+	

@@ -1,0 +1,75 @@
+on break of wheat[age=7],potatoes[age=7],carrots[age=7] or beetroots[age=3]:
+	if {playerjob::%player's uuid%} is equal to 4:
+		add 1 to {blockFarmed::%player's uuid%}
+		if {blockFarmed::%player's uuid%} is greater than 19:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockFarmed::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+                   
+on break of melon or pumpkin:
+	if {playerjob::%player's uuid%} is equal to 4:
+		add 2 to {blockFarmed::%player's uuid%}
+		if {blockFarmed::%player's uuid%} is greater than 19:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockFarmed::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+					
+on break of sugar cane,cactus or cocoa:
+	if {playerjob::%player's uuid%} is equal to 4:
+		add 3 to {blockFarmed::%player's uuid%}
+		if {blockFarmed::%player's uuid%} is greater than 19:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockFarmed::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+					
+				
+				
+				

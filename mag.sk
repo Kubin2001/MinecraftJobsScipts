@@ -1,0 +1,87 @@
+on enchant:
+    if {playerjob::%player's uuid%} is equal to 5:
+        set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+        set {_neededxp} to round({_neededxp})
+        if the clicked button is 1:
+            set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+            set player's balance to player's balance + {_totalMoney}
+            send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+            add 1 to {jobxp::%player's uuid%}
+            
+            if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                add 1 to {mana::%player's uuid%}
+                
+            if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+                set {jobxp::%player's uuid%} to 0
+                add 0.1 to {joblevel::%player's uuid%}
+                add 1 to {jobrank::%player's uuid%}
+                send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+                if {jobrank::%player's uuid%} is greater than 70:
+                    set player's balance to player's balance + 560
+                    send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+                    set {jobrank::%player's uuid%} to 70
+                    set {joblevel::%player's uuid%} to 8
+        else if the clicked button is 2:
+            set {_totalMoney} to 2 * {joblevel::%player's uuid%}
+            set player's balance to player's balance + {_totalMoney}
+            send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+            add 2 to {jobxp::%player's uuid%}
+            
+            if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                add 2 to {mana::%player's uuid%}
+                
+            if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+                set {jobxp::%player's uuid%} to 0
+                add 0.1 to {joblevel::%player's uuid%}
+                add 1 to {jobrank::%player's uuid%}
+                send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+                if {jobrank::%player's uuid%} is greater than 70:
+                    set player's balance to player's balance + 560
+                    send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+                    set {jobrank::%player's uuid%} to 70
+                    set {joblevel::%player's uuid%} to 8
+        
+        else if the clicked button is 3:
+            set {_totalMoney} to 3 * {joblevel::%player's uuid%}
+            set player's balance to player's balance + {_totalMoney}
+            send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+            add 3 to {jobxp::%player's uuid%}
+            
+            if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                add 3 to {mana::%player's uuid%}
+                
+            if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+                set {jobxp::%player's uuid%} to 0
+                add 0.1 to {joblevel::%player's uuid%}
+                add 1 to {jobrank::%player's uuid%}
+                send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+                if {jobrank::%player's uuid%} is greater than 70:
+                    set player's balance to player's balance + 560
+                    send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+                    set {jobrank::%player's uuid%} to 70
+                    set {joblevel::%player's uuid%} to 8
+				
+on death of evoker or witch:
+	attacker is a player
+	if {playerjob::%attacker's uuid%} is equal to 5:
+		set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
+		set {_neededxp} to round({_neededxp})
+		set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
+		set attacker's balance to attacker's balance + {_totalMoney}
+		send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
+		add 1 to {jobxp::%attacker's uuid%}
+		
+		if {mana::%attacker's uuid%} is lower than {jobrank::%attacker's uuid%}:
+			add 1 to {playerFlag::%attacker's uuid% mana}
+			
+		if {jobxp::%attacker's uuid%} is greater than {_neededxp} -1:
+			set {jobxp::%attacker's uuid%} to 0
+			add 0.1 to {joblevel::%attacker's uuid%}
+			add 1 to {jobrank::%attacker's uuid%}
+			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
+			
+			if {jobrank::%attacker's uuid%} is greater than 70:
+				set attacker's balance to attacker's balance + 560
+				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
+				set {jobrank::%attacker's uuid%} to 70
+				set {joblevel::%attacker's uuid%} to 8

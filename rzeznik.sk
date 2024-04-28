@@ -1,0 +1,69 @@
+on death of rabbit and chicken:
+	if {playerjob::%attacker's uuid%} is equal to 6:
+		add 1 to {animals_killed::%attacker's uuid%}
+		if {animals_killed::%attacker's uuid%} is greater than 4:
+			set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {animals_killed::%attacker's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
+			set attacker's balance to attacker's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
+			
+			add 1 to {jobxp::%attacker's uuid%}
+			if {jobxp::%attacker's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%attacker's uuid%} to 0
+				add 0.1 to {joblevel::%attacker's uuid%}
+				add 1 to {jobrank::%attacker's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
+				
+				if {jobrank::%attacker's uuid%} is greater than 70:
+					set attacker's balance to attacker's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
+					set {jobrank::%attacker's uuid%} to 70
+					set {joblevel::%attacker's uuid%} to 8
+					
+on death of pig,sheep and cow:
+	if {playerjob::%attacker's uuid%} is equal to 6:
+		add 2 to {animals_killed::%attacker's uuid%}
+		if {animals_killed::%attacker's uuid%} is greater than 4:
+			set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {animals_killed::%attacker's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
+			set attacker's balance to attacker's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
+			
+			add 1 to {jobxp::%attacker's uuid%}
+			if {jobxp::%attacker's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%attacker's uuid%} to 0
+				add 0.1 to {joblevel::%attacker's uuid%}
+				add 1 to {jobrank::%attacker's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
+				
+				if {jobrank::%attacker's uuid%} is greater than 70:
+					set attacker's balance to attacker's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
+					set {jobrank::%attacker's uuid%} to 70
+					set {joblevel::%attacker's uuid%} to 8
+					
+on death of mooshroom:
+	if {playerjob::%attacker's uuid%} is equal to 6:
+		set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
+		set {_neededxp} to round({_neededxp})
+		set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
+		set attacker's balance to attacker's balance + {_totalMoney}
+		send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
+		add 1 to {jobxp::%attacker's uuid%}
+		if {jobxp::%attacker's uuid%} is greater than {_neededxp} -1:
+			set {jobxp::%attacker's uuid%} to 0
+			add 0.1 to {joblevel::%attacker's uuid%}
+			add 1 to {jobrank::%attacker's uuid%}
+			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
+			
+			if {jobrank::%attacker's uuid%} is greater than 70:
+				set attacker's balance to attacker's balance + 560
+				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
+				set {jobrank::%attacker's uuid%} to 70
+				set {joblevel::%attacker's uuid%} to 8
+    
+			

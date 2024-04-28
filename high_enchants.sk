@@ -1,0 +1,77 @@
+command /polacz:
+	permission: skript.polacz
+	permission message: &cNie masz do tego permisji.
+	trigger:			
+		if player's tool is book of sharpness 6:
+			if player's offhand tool is netherite sword or netherite axe:
+				if durability of player's offhand tool is max durability of player's offhand tool:
+					play sound "block.anvil.use" to player
+					enchant player's offhand tool with sharpness 6
+					remove 1 book of sharpness 6 from player's inventory
+				else:
+					send "&4Narzedzie nie może być uszkodzone!"
+				
+			else:
+				send "&4Musisz trzymać w ręce miecz lub siekierę!"
+		
+		if player's tool is book of looting 4:
+			if player's offhand tool is netherite sword or netherite axe:
+				if durability of player's offhand tool is max durability of player's offhand tool:
+					play sound "block.anvil.use" to player
+					enchant player's offhand tool with looting 4
+					remove 1 book of looting 4 from player's inventory
+				else:
+					send "&4Narzedzie nie może być uszkodzone!"
+				
+			else:
+				send "&4Musisz trzymać w ręce miecz lub siekierę!"
+				
+		if player's tool is book of unbreaking 4:
+			if durability of player's offhand tool is max durability of player's offhand tool:
+				play sound "block.anvil.use" to player
+				enchant player's offhand tool with unbreaking 4
+				remove 1 book of unbreaking 4 from player's inventory
+			else:
+				send "&4Narzedzie nie może być uszkodzone!"
+				
+		if player's tool is book of fire aspect 3:
+			if player's offhand tool is netherite sword or netherite axe:
+				if durability of player's offhand tool is max durability of player's offhand tool:
+					play sound "block.anvil.use" to player
+					enchant player's offhand tool with fire aspect 3
+					remove 1 book of fire aspect 3 from player's inventory
+				else:
+					send "&4Narzedzie nie może być uszkodzone!"
+				
+			else:
+				send "&4Musisz trzymać w ręce miecz lub siekierę!"
+		
+		if player's tool is book of power 6:
+			if player's offhand tool is bow:
+				if durability of player's offhand tool is max durability of player's offhand tool:
+					play sound "block.anvil.use" to player
+					enchant player's offhand tool with power 6
+					remove 1 book of power 6 from player's inventory
+				else:
+					send "&4Łuk nie może być uszkodzony!"
+				
+			else:
+				send "&4Musisz trzymać w ręce łuk!"
+				
+		if player's tool is book of protection 5:
+			if player's offhand tool is netherite helmet or netherite chestplate or netherite leggings or netherite boots:
+				if durability of player's offhand tool is max durability of player's offhand tool:
+					play sound "block.anvil.use" to player
+					enchant player's offhand tool with protection 5
+					remove 1 book of protection 5 from player's inventory
+				else:
+					send "&4Zbroja nie może być uszkodzona!"
+				
+			else:
+				send "&4Musisz trzymać w ręce łuk!"
+		
+
+				
+		
+
+

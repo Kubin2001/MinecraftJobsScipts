@@ -1,0 +1,135 @@
+on left click:
+	if name of player's tool contains "&2&lZestaw Naprawczy":
+		cancel event
+		if durability of player's offhand tool is max durability of player's tool:
+			send "&4Musisz trzymać uszkodzone narzędzie w lewej ręce aby je naprawić"
+			play sound "entity.horse.hurt" to player
+		else:
+			send "&bNaprawione!"
+			repair player's offhand tool
+			remove 1 netherite scrap of mending named "&2&lZestaw Naprawczy" from player's inventory
+			play sound "block.anvil.use" to player
+			
+	else if name of player's tool contains "&3&lZmiana kontraktu":
+		cancel event
+		if {playerjob::%player's uuid%} is set:
+			if {company::%player's uuid%} is not set:
+				play sound "entity.player.levelup" to player
+				send "&bOpuściłeś pracę bezstratnie możesz w każdej chwili dołączyć do nowej pracy"
+				remove 1 echo shard of mending named "&3&lZmiana kontraktu" with lore "Kliknij lewym aby odejść z pracy bez straty poziomu i mnożnika" from player's inventory
+				
+				if {playerjob::%player's uuid%} is equal to 1:
+					delete {blockBreaks::%player's uuid%}
+				
+				else if {playerjob::%player's uuid%} is equal to 2:
+					delete {mobkills::%player's uuid%}
+					
+				else if {playerjob::%player's uuid%} is equal to 3:
+					delete {blockPleaced::%player's uuid%}
+					
+				else if {playerjob::%player's uuid%} is equal to 4:
+					execute console command "lp user %player% permission unset essentials.warps.skupupraw"
+					delete {blockFarmed::%player's uuid%}
+					
+				else if {playerjob::%player's uuid%} is equal to 5:
+					delete {mana::%player's uuid%}
+					delete {meditate::%player's uuid%}
+					
+				else if {playerjob::%player's uuid%} is equal to 6:
+					execute console command "lp user %player% permission unset essentials.warps.skupmiesa"
+					delete {animals_killed::%player's uuid%}			
+					
+				else if {playerjob::%player's uuid%} is equal to 8:
+					delete {loc %player's uuid%}
+					
+				delete {playerjob::%player's uuid%}
+			else:
+				send "&4&lNie możesz opuścić pracy gdy jesteś członkiem kompani handlowej"
+				play sound "entity.horse.hurt" to player
+		else:
+			play sound "entity.horse.hurt" to player
+			send "&4Wygląda na to że nie jesteś aktualnie zatrudiony"
+			
+	else if name of player's tool contains "&9&lKalibrator Sensoryczny":
+		cancel event
+		if {jobxp::%player's uuid%} is set:
+			play sound "entity.player.levelup" to player
+			remove 2 hours from {cooldown1::%player's uuid%}
+			remove 2 hours from {cooldown2::%player's uuid%}
+			remove 2 hours from {cooldown3::%player's uuid%}
+			remove 2 hours from {cooldown4::%player's uuid%}
+			remove 1 popped chorus fruit of mending named "&9&lKalibrator Sensoryczny" with lore "Kliknij lewym aby zmniejszyć opóźnienia pracy" from player's inventory
+			send "&b&lZmniejszono opóźnienia prac i zdobyto xp!"
+			add 500 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+		else:
+			play sound "entity.horse.hurt" to player
+			send "&4&lNigdy nie miałeś pracy kalibrator nie zadziałał!"
+		
+			
+			
+
+on consume:
+	if name of player's tool contains "&6&lMagiczne ciastko":
+		send "&b&lTo było naprawdę niesamowite ciastko!!!"
+		apply speed 2 to the player for 90 second
+		apply resistance 2 to the player for 90 second
+		apply strength 2 to the player for 90 second
+		apply regeneration 2 to the player for 90 second
+	
+	if name of player's tool contains "&b&lMikstrura many":
+		if {playerjob::%player's uuid%} is equal to 5:
+			send "&bOdnowiłeś manę!"
+			set {mana::%player's uuid%} to {jobrank::%player's uuid%}
+		else:
+			send "&4Nie jesteś magiem mikstura nie ma żadnych efektów"
+		
+			
+           	
+	
+on armor change:
+    if name of event-item is "&4&lButy szybkości":
+        remove speed from player
+        apply speed 1 without particles to player for 1 hour
+		
+on death of witch:
+	chance of 50%:
+		drop 1 paper named "&2Manuskrypt" at victim
+		send "&5Znalazłeś starożytny manuskrypt pomoże ci on w budowie twojego imperium!" to attacker
+	
+on damage:
+	if name of attacker's tool contains "&4&lZatrute ostrze":
+		apply poison 1 to the victim for 5 second
+	else if name of attacker's tool contains "&9&lBroń z enderytu":
+		apply levitation 1 to the victim for 5 second 
+		apply slowness 1 to the victim for 10 second 
+	else if name of attacker's tool contains "&9&l&oHypernova":
+		if attacker is in world "world":
+			apply glowing 1 to the victim for 5 second
+			apply hunger 1 to the victim for 5 second
+			
+		else if attacker is in world "world_nether":
+			apply glowing 1 to the victim for 5 second
+			apply wither 1 to the victim for 3 second
+			
+		else if attacker is in world "world_the_end":
+			apply glowing 1 to the victim for 5 second
+			apply weakness 1 to the victim for 2 second
+		else:
+			apply glowing 1 to the victim for 5 second
+			apply hunger 1 to the victim for 5 second
+		play sound "block.note_block.bell" to the attacker
+on shoot:
+    if shooter's tool is a crossbow named "&9&lBroń z enderytu":
+        if projectile is an arrow:
+            apply regeneration 2 to the shooter for 2 second

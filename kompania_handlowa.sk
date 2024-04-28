@@ -1,0 +1,416 @@
+command /utworz <text>:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {jobrank::%player's uuid%} is greater than 59:
+			if player's balance >= 1000:
+				if {company::%player's uuid%} is not set:
+				
+					set {_bool} to false
+					loop {company::*}:
+						if loop-value is equal to arg-1:
+							set {_bool} to true
+					if {_bool} is false:
+						set {company::%player's uuid%} to arg-1
+						set {companyrank::%player's uuid%} to 3
+						set {companyname::%arg-1%} to arg-1
+						set {companylevel::%arg-1%} to 1
+						set {companyxp::%arg-1%} to 0
+						set {companymemberscount::%arg-1%} to 1
+						set {companycooldown::%arg-1%} to 6 hours from now
+						set {companybalance::%arg-1%} to 0
+						remove 10000 from player's balance
+						broadcast "&2&l%player% &8utworzył nową kompanię handlową o nazwie : &2&l%arg-1%"
+					else if {_bool} is true:
+						send "&4Istnieje już kompania handlowa o tej nazwie" to player
+				else:
+					send "&4Jesteś już członkiem kompani handlowej" to player
+			else:
+				send "&4Nie masz 10 tysięcy monet"
+		else:
+			send "&4Musisz mieć przynajmniej 60 poziom pracy" to player
+
+command /kompania:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {company::%player's uuid%} is set:
+			set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+			play sound "entity.experience_orb.pickup" to player
+			open chest inventory with 4 rows named "&2&l%{company::%player's uuid%}%" to player
+			wait 1 tick
+			set slot 4 of player's current inventory to sunflower named "&b&lInformacje"
+			
+			set slot 9 of player's current inventory to experience bottle named "&b&lDoładuj XP"
+			
+			set slot 11 of player's current inventory to paper named "&b&lPoziom" with lore "%{companylevel::%{company::%player's uuid%}%}%/10"
+			
+			if {companycooldown::%{company::%player's uuid%}%} < now:
+				set slot 12 of player's current inventory to paper named "&b&lOpóźnienie" with lore "Gotowe!"
+			else:
+				set slot 12 of player's current inventory to paper named "&b&lOpóźnienie" with lore "%{_waited}%"
+				
+			#set slot 12 of player's current inventory to paper named "&b&lOpóźnienie" with lore "%{_waited}%"
+		
+			set slot 13 of player's current inventory to paper named "&4&lXP" with lore "%{companyxp::%{company::%player's uuid%}%}%/100"
+			
+			set slot 14 of player's current inventory to paper named "&4&lIlość członków" with lore "%{companymemberscount::%{company::%player's uuid%}%}%"
+			
+			set slot 15 of player's current inventory to paper named "&4&lMajątek Kompani" with lore "%{companybalance::%{company::%player's uuid%}%}%"
+			
+			set slot 29 of player's current inventory to book named "&4&lListy motywacyjne" with lore "Zmniejsz opóźnienie wszystkich umiejętności o dwie godziny"
+			
+			set slot 30 of player's current inventory to book named "&4&lUtwórz lokaty" with lore "Zwiększa oprocentowanie majątku kompani"
+			
+			set slot 31 of player's current inventory to nether star named "&4&lSkumuluj taleny" with lore "Daje graczowi potężną księgę zaklęć (400)"
+			
+			set slot 32 of player's current inventory to anvil named "&4&lWyznacz kontrakt kowalski" with lore "Nakłada enchanty z poprzedniej umiejętności na trzymane narzedzie (1000)"
+            
+			set slot 33 of player's current inventory to experience bottle named "&4&lRenegocjuj Kontrakty" with lore "Zwiększa mnożnik do 15 na jeden poziom (2000)"
+			
+		
+		else:
+			send "&4Nie jesteś członkiem kompani handlowej" to player
+				
+on inventory click:
+	if name of event-inventory is "&2&l%{company::%player's uuid%}%":
+		if the event-inventory slot is experience bottle named "&b&lDoładuj XP":
+			cancel event
+			add {jobxp::%player's uuid%} to {companyxp%{company::%player's uuid%}%}
+			remove {jobxp::%player's uuid%} from {jobxp::%player's uuid%}
+			send "&8Doładowano doświadczenie kompani handlowej"
+			if {companyxp::%{company::%player's uuid%}%} is greater than 99:
+				if {companylevel::%{company::%player's uuid%}%} is lower than 11:
+					add 1 to {companylevel::%{company::%player's uuid%}%}
+					set {companyxp::%{company::%player's uuid%}%} to 0
+					send "&8Poziom kompani został powiększony"
+		else if the event-inventory slot is book named "&4&lListy motywacyjne":
+			cancel event
+			if {companymemberscount::%{company::%player's uuid%}%} >= 3:
+				if {companycooldown::%{company::%player's uuid%}%} < now:
+					play sound "entity.experience_orb.pickup" to player
+					set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+					loop all players:
+						if {company::%uuid of loop-player%} is equal to {companyname::%{company::%uuid of loop-player%}%}:
+							send "&8Zmniejszono opóźnienia członków kompani" to loop-player
+							remove 2 hours from {cooldown1::%uuid of loop-player%}
+							remove 2 hours from {cooldown2::%uuid of loop-player%}
+							remove 2 hours from {cooldown3::%uuid of loop-player%}
+				else:
+					set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+					send "&4Musisz poczekać jeszcze: %{_waited}%"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4&lMusisz mieć przynajmniej 3 członków kompani handlowej"
+				play sound "entity.horse.hurt" to player
+				
+		else if the event-inventory slot is book named "&4&lUtwórz lokaty":
+			cancel event
+			if {companymemberscount::%{company::%player's uuid%}%} >= 3:
+				if {companycooldown::%{company::%player's uuid%}%} < now:
+					play sound "entity.experience_orb.pickup" to player
+					set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+					set {_x} to {companybalance::%{company::%player's uuid%}%} * 0.02
+					if {_x} > 2000:
+						add 2000 to {companybalance::%{company::%player's uuid%}%}
+					
+					else:
+						add {_x} to {companybalance::%{company::%player's uuid%}%}
+					send "&8Dodano %{_x}% do majątku kompani"
+				
+				else:
+					set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+					send "&4Musisz poczekać jeszcze: %{_waited}%"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4&lMusisz mieć przynajmniej 3 członków kompani handlowej"
+				play sound "entity.horse.hurt" to player
+				
+		else if the event-inventory slot is nether star named "&4&lSkumuluj taleny":
+			cancel event
+			if {companymemberscount::%{company::%player's uuid%}%} >= 3:
+				if {companycooldown::%{company::%player's uuid%}%} < now:
+					if player's balance is greater than 400:
+						play sound "entity.experience_orb.pickup" to player
+						set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+						set {_x} to random integer between 1 and 6
+						set {_x} to 6
+						if {_x} is equal to 1:
+							give player book of sharpness 6
+						else if {_x} is equal to 2:
+							give player book of looting 4
+						else if {_x} is equal to 3:
+							give player book of unbreaking 4
+						else if {_x} is equal to 4:
+							give player book of fire aspect 3
+						else if {_x} is equal to 5:
+							give player book of power 6
+						else if {_x} is equal to 6:
+							give player book of protection 5
+						send "&8Otrzymałeś potężne zaklęcie"
+						remove 400 from player's balance
+					else:
+						send "&4Musisz mieć przynajmniej 400 monet aby tego użyć"
+						play sound "entity.horse.hurt" to player
+				else:
+					set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+					send "&4Musisz poczekać jeszcze: %{_waited}%"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4&lMusisz mieć przynajmniej 3 członków kompani handlowej"
+				play sound "entity.horse.hurt" to player
+		
+		else if the event-inventory slot is anvil named "&4&lWyznacz kontrakt kowalski":
+			cancel event
+			if {companymemberscount::%{company::%player's uuid%}%} >= 1:
+				if {companycooldown::%{company::%player's uuid%}%} < now:
+					if player's balance is greater than 1000:
+						play sound "entity.experience_orb.pickup" to player
+						if player's tool is book of sharpness 6:
+							if player's offhand tool is netherite sword or netherite axe:
+								if durability of player's offhand tool is max durability of player's offhand tool:
+									play sound "block.anvil.use" to player
+									enchant player's offhand tool with sharpness 6
+									remove 1 book of sharpness 6 from player's inventory
+									set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+									remove 1000 from player's balance
+								else:
+									send "&4Narzedzie nie może być uszkodzone!"
+								
+							else:
+								send "&4Musisz trzymać w ręce miecz lub siekierę!"
+			
+						if player's tool is book of looting 4:
+							if player's offhand tool is netherite sword or netherite axe:
+								if durability of player's offhand tool is max durability of player's offhand tool:
+									play sound "block.anvil.use" to player
+									enchant player's offhand tool with looting 4
+									remove 1 book of looting 4 from player's inventory
+									set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+									remove 1000 from player's balance
+								else:
+									send "&4Narzedzie nie może być uszkodzone!"
+								
+							else:
+								send "&4Musisz trzymać w ręce miecz lub siekierę!"
+								
+						if player's tool is book of unbreaking 4:
+							if durability of player's offhand tool is max durability of player's offhand tool:
+								play sound "block.anvil.use" to player
+								enchant player's offhand tool with unbreaking 4
+								remove 1 book of unbreaking 4 from player's inventory
+								set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+								remove 1000 from player's balance
+							else:
+								send "&4Narzedzie nie może być uszkodzone!"
+								
+						if player's tool is book of fire aspect 3:
+							if player's offhand tool is netherite sword or netherite axe:
+								if durability of player's offhand tool is max durability of player's offhand tool:
+									play sound "block.anvil.use" to player
+									enchant player's offhand tool with fire aspect 3
+									remove 1 book of fire aspect 3 from player's inventory
+									set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+									remove 1000 from player's balance
+								else:
+									send "&4Narzedzie nie może być uszkodzone!"
+								
+							else:
+								send "&4Musisz trzymać w ręce miecz lub siekierę!"
+						
+						if player's tool is book of power 6:
+							if player's offhand tool is bow:
+								if durability of player's offhand tool is max durability of player's offhand tool:
+									play sound "block.anvil.use" to player
+									enchant player's offhand tool with power 6
+									remove 1 book of power 6 from player's inventory
+									set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+									remove 1000 from player's balance
+								else:
+									send "&4Łuk nie może być uszkodzony!"
+								
+							else:
+								send "&4Musisz trzymać w ręce łuk!"
+								
+						if player's tool is book of protection 5:
+							if player's offhand tool is netherite helmet or netherite chestplate or netherite leggings or netherite boots:
+								if durability of player's offhand tool is max durability of player's offhand tool:
+									play sound "block.anvil.use" to player
+									enchant player's offhand tool with protection 5
+									remove 1 book of protection 5 from player's inventory
+									set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+									remove 1000 from player's balance
+								else:
+									send "&4Zbroja nie może być uszkodzona!"
+								
+							else:
+								send "&4Musisz trzymać w ręce łuk!"
+					else:
+						send "&4Musisz mieć przynajmniej 1000 monet aby tego użyć"
+						play sound "entity.horse.hurt" to player
+				else:
+					set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+					send "&4Musisz poczekać jeszcze: %{_waited}%"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4&lMusisz mieć przynajmniej 3 członków kompani handlowej"
+				play sound "entity.horse.hurt" to player
+                
+		else if the event-inventory slot is experience bottle named "&4&lRenegocjuj Kontrakty":
+			cancel event
+			if {companymemberscount::%{company::%player's uuid%}%} >= 5:
+				if {companycooldown::%{company::%player's uuid%}%} < now:
+					play sound "entity.experience_orb.pickup" to player
+					set {companycooldown::%{company::%player's uuid%}%} to 6 hours from now
+					remove 2000 from player's balance
+					loop all players:
+						if {company::%uuid of loop-player%} is equal to {companyname::%{company::%uuid of loop-player%}%}:
+							send "&8Zwiększono mnożnik członków kompani do 15" to loop-player
+							set {joblevel::%uuid of loop-player%} to 15
+							set {jobxp::%uuid of loop-player%} to 0
+				else:
+					set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+					send "&4Musisz poczekać jeszcze: %{_waited}%"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4&lMusisz mieć przynajmniej 5 członków kompani handlowej"
+				play sound "entity.horse.hurt" to player
+				
+		
+		else if the event-inventory slot is sunflower named "&b&lInformacje":
+			cancel event
+			#set {companycooldown::%{company::%player's uuid%}%} to now
+			
+		else:
+			cancel event
+
+command /usunkompanie:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {companyrank::%player's uuid%} is equal to 3:
+			if  {companymemberscount::%{company::%player's uuid%}%} is equal to 1:
+				broadcast "&4&l%player% ogłosił bankructwo kompani %{company::%player's uuid%}% "
+				delete {companylevel::%{company::%player's uuid%}%}
+				delete {companyxp::%{company::%player's uuid%}%}
+				delete {companymemberscount::%{company::%player's uuid%}%}
+				delete {companyname::%{company::%player's uuid%}%}
+				delete {company::%player's uuid%}
+				delete {companyrank::%player's uuid%}
+				delete {companybalance::%{company::%player's uuid%}%}
+				delete {companycooldown::%{company::%player's uuid%}%}
+			else:
+				send "&4Nie możesz tego zrobić gdy kompania nadal na członków" to player
+				play sound "entity.horse.hurt" to player
+				
+		
+		else:
+			send "&4Nie możesz tego zrobić" to player
+			play sound "entity.horse.hurt" to player
+     
+command /zaprosdokompani <player>:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {company::%arg-1's uuid%} is not set:
+			set {companyinv::%arg-1's uuid%} to {company::%player's uuid%}
+			send "&2&l%player% &8zaprosił cię do &2&l%{company::%player's uuid%}%" to arg-1
+			send "&8Zaproszenie wysłane" to player
+		else:
+			send "&8Ten gracz jest już członkiem kompani handlowej" to player
+		
+command /wyrzuczkompani <player>:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {company::%arg-1's uuid%} is equal to {company::%player's uuid%}:
+			if {companymemberscount::%{company::%player's uuid%}%} is greater than 1:
+				if {companyrank::%player's uuid%} is equal to 3:
+					delete {companyrank::%arg-1's uuid%}
+					delete {company::%arg-1's uuid%}
+					remove 1 from {companymemberscount::%{company::%player's uuid%}%}
+					send "&2&l%arg-1% &8został wyrzucony z &2&l%{company::%player's uuid%}%"
+				else:
+					send "&4Twoja ranga jest za niska"
+				
+			else:
+				send "&4Nie masz wystarczającej liczby członków" to player
+		else:
+			send "&4Nie możesz tego zrobić" to player
+				
+				
+command /dolaczdokompani:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {companyinv::%player's uuid%} is set:
+			if {company::%player's uuid%} is not set:
+				set {company::%player's uuid%} to {companyinv::%player's uuid%}
+				add 1 to {companymemberscount::%{company::%player's uuid%}%}
+				delete {companyinv::%player's uuid%}
+				broadcast "&2&l%player% &8dołączył do kompani &2&l%{company::%player's uuid%}%"
+				
+				
+			else:
+				send "Jesteś już członkiem kompani handlowej"
+		else:
+			send "&4Nie masz zaproszenia"
+    
+command /opusckompanie:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {company::%player's uuid%} is set:
+			if {companyrank::%player's uuid%} is greater than 2:
+				send "&4&lZałożyciel nie może opuśić kompani handlowej"
+				play sound "entity.horse.hurt" to player
+			
+			else:
+				broadcast "&2&l%player% &8opuscił kompanię &2&l%{company::%player's uuid%}%"
+				remove 1 from {companymemberscount::%{company::%player's uuid%}%}
+				delete {companyrank::%player's uuid%}
+				delete {company::%player's uuid%}
+		else:
+			send "&4Nie jesteś członkiem kompani handlowej"
+			play sound "entity.horse.hurt" to player
+				
+command /wyplac <number>:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {company::%player's uuid%} is set:
+			if {companycooldown::%{company::%player's uuid%}%} < now:
+				if {companybalance::%{company::%player's uuid%}%} >= arg-1:
+					remove arg-1 from {companybalance::%{company::%player's uuid%}%}
+					add arg-1 to player's balance
+					set {companycooldown::%{company::%player's uuid%}%} to 2 hours from now
+					send "&8Wypłacono &2&l%arg-1% &8monet z konta kompani"
+			else:
+				set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+				send "&4Musisz poczekać jeszcze: %{_waited}%"
+				play sound "entity.horse.hurt" to player
+		else:
+			send "&4Nie jesteś członkiem kompani handlowej"
+			play sound "entity.horse.hurt" to player
+	
+command /wplac <number>:
+	permission: skript.kompania
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {company::%player's uuid%} is set:
+			if {companycooldown::%{company::%player's uuid%}%} < now:
+				if player's balance >= arg-1:
+					if arg-1 < 1000:
+						add arg-1 to {companybalance::%{company::%player's uuid%}%}
+						remove arg-1 from player's balance
+						set {companycooldown::%{company::%player's uuid%}%} to 2 hours from now
+						send "&8Wpłacono &2&l%arg-1% &8monet na konto kompani"
+					else:
+						send "&4Maksymalnie możesz wpłacić 1000 monet jednorazowo"
+			else:
+				set {_waited} to difference between {companycooldown::%{company::%player's uuid%}%} and now
+				send "&4Musisz poczekać jeszcze: %{_waited}%"
+				play sound "entity.horse.hurt" to player
+		else:
+			send "&4Nie jesteś członkiem kompani handlowej"
+			play sound "entity.horse.hurt" to player

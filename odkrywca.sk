@@ -1,0 +1,62 @@
+command /podroz:
+	permission: skript.podroz
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {playerjob::%player's uuid%} is equal to 8:
+			if {loc %player's uuid%} is not set:
+				set {_random} to random integer between 0 and 20
+				if {_random} is between 10 and 0:
+					set {_x} to random integer between -5000 and 5000
+					set {_y} to random integer between -40 and 200
+					set {_z} to random integer between -5000 and 5000
+					set {_w} to "world"
+				else if {_random} is between 15 and 11:
+					set {_x} to random integer between -1900 and 1900
+					set {_y} to random integer between 10 and 100
+					set {_z} to random integer between -1900 and 1900
+					set {_w} to "world_nether"
+				else if {_random} is between 19 and 16:
+					set {_x} to random integer between -2900 and 2900
+					set {_y} to random integer between 10 and 120
+					set {_z} to random integer between -2900 and 2900
+					set {_w} to "world_the_end"
+				else if {_random} is equal to 20:
+					set {_x} to random integer between -2900 and 2900
+					set {_y} to random integer between -40 and 200
+					set {_z} to random integer between -2900 and 2900
+					set {_w} to "secondworld"
+					
+
+				set {loc %player's uuid%} to the location at {_x}, {_y}, {_z} of the world {_w}
+				send "&b&lMusisz dotrzeć do %{_x}%, %{_y}%, %{_z}% ,w swiecie %{_w}% "
+			else:
+				if distance between player's location and {loc %player's uuid%} <= 15:
+					set {_totalMoney} to 70 * {joblevel::%player's uuid%}
+					set player's balance to player's balance + {_totalMoney}
+					send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+					send "&6Możesz teraz wybrać nową lokalizację do odkrycia " to player
+					play sound "entity.dragon_fireball.explode" to player
+					delete {loc %player's uuid%}
+					set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+					set {_neededxp} to round({_neededxp})
+					add 30 to {jobxp::%player's uuid%}
+					if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+						set {jobxp::%player's uuid%} to 0
+						add 0.1 to {joblevel::%player's uuid%}
+						add 1 to {jobrank::%player's uuid%}
+						send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+						
+						if {jobrank::%player's uuid%} is greater than 70:
+							set player's balance to player's balance + 560
+							send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+							set {jobrank::%player's uuid%} to 70
+							set {joblevel::%player's uuid%} to 8
+				else:
+					send "&b&lNie jesteś wystarczająco blisko wymaganej lokalizaji"
+					send "&b&l%{loc %player's uuid%}%"
+					play sound "entity.horse.hurt" to player
+					
+					
+		else:
+			send "&4Musisz pracować jako odkrywca aby użyć tej umiejętności"
+			play sound "entity.horse.hurt" to player

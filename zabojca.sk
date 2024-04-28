@@ -1,0 +1,56 @@
+command /zasadzka <player>:
+	permission: skript.zasadzka
+	permission message: &cNie masz do tego permisji.
+	trigger:
+		if {playerjob::%player's uuid%} is equal to 7:
+			if {jobrank::%player's uuid%} is greater than 24:
+				if {cooldown3::%player's uuid%} < now:
+					if arg-1 is set: # Ensure a number is provided
+						set {cooldown::%player's uuid% bonus3} to 2 hours from now
+						apply darkness 1 to the arg-1 for 2 minutes
+						apply glowing 1 to the arg-1 for 2 minutes
+						apply slowness 2 to the arg-1 for 2 minutes
+						send "&4&l%player% użył umiejętności zabójcy aby cię zaatakować uciekaj!!!" to arg-1
+						send "&4&lTwój cel jest teraz osłabiony!" 
+						play sound "entity.ender_dragon.ambient" to arg-1
+						play sound "entity.ender_dragon.ambient" to player
+						wait 10 second
+						apply darkness 1 to the arg-1 for 2 minutes
+						apply glowing 1 to the arg-1 for 2 minutes
+						apply slowness 2 to the arg-1 for 2 minutes
+					else:
+						send "Musisz podać nick gracza: /zasadzka [player]"
+				else:
+					set {_waited} to difference between now and {cooldown3::%player's uuid%}
+					send "&4Musisz poczekać jeszcze: %{_waited}%"
+					play sound "entity.horse.hurt" to player
+			else:
+				send "&4Musisz mieć 25 poziom aby użyć tej umiejętności"
+				play sound "entity.horse.hurt" to player
+		else:
+			send "&4Musisz pracować jako zabojca aby użyć tej umiejętności"
+			play sound "entity.horse.hurt" to player
+		
+on death of player:
+	attacker is a player
+	if {playerjob::%attacker's uuid%} is equal to 7:
+		set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
+		set {_neededxp} to round({_neededxp})
+		set {_totalMoney} to 3 * {joblevel::%attacker's uuid%}
+		set attacker's balance to attacker's balance + {_totalMoney}
+		send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
+		add 2 to {jobxp::%attacker's uuid%}
+		if {jobxp::%attacker's uuid%} is greater than {_neededxp} -1:
+			set {jobxp::%attacker's uuid%} to 0
+			add 0.1 to {joblevel::%attacker's uuid%}
+			add 1 to {jobrank::%attacker's uuid%}
+			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
+			if {jobrank::%attacker's uuid%} is greater than 70:
+				set attacker's balance to attacker's balance + 560
+				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
+				set {jobrank::%attacker's uuid%} to 70
+				set {joblevel::%attacker's uuid%} to 8
+				
+	if {playerjob::%attacker's uuid%} is equal to 7:
+		drop skull of victim at the victim 
+		send "&4Zdobyłeś głowę %victim%" to the attacker

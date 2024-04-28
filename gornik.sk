@@ -1,0 +1,95 @@
+on break of stone,andesite,diorite,granite or tuff:
+	if {playerjob::%player's uuid%} is equal to 1:
+		add 2 to {blockBreaks::%player's uuid%}
+		if {blockBreaks::%player's uuid%} is greater than 199:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockBreaks::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+					
+on break of endstone:
+	if {playerjob::%player's uuid%} is equal to 1:
+		add 4 to {blockBreaks::%player's uuid%}
+		if {blockBreaks::%player's uuid%} is greater than 199:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockBreaks::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+			
+on break of deepslate:
+	if {playerjob::%player's uuid%} is equal to 1:
+		add 10 to {blockBreaks::%player's uuid%}
+		if {blockBreaks::%player's uuid%} is greater than 199:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockBreaks::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8
+			
+on break of netherrack:
+	if {playerjob::%player's uuid%} is equal to 1:
+		add 1 to {blockBreaks::%player's uuid%}
+		if {blockBreaks::%player's uuid%} is greater than 199:
+			set {_neededxp} to {joblevel::%player's uuid%} * {jobrank::%player's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {blockBreaks::%player's uuid%} to 0
+			set {_totalMoney} to 1 * {joblevel::%player's uuid%}
+			set player's balance to player's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to player
+			
+			add 1 to {jobxp::%player's uuid%}
+			if {jobxp::%player's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%player's uuid%} to 0
+				add 0.1 to {joblevel::%player's uuid%}
+				add 1 to {jobrank::%player's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
+				
+				if {jobrank::%player's uuid%} is greater than 70:
+					set player's balance to player's balance + 560
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
+					set {jobrank::%player's uuid%} to 70
+					set {joblevel::%player's uuid%} to 8

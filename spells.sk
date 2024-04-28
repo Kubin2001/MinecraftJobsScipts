@@ -1,0 +1,298 @@
+function spell_negative(p: player):
+    chance of 6%:
+        send "&4&lO nie zaklęcie miało niespodziewane efekty!" to {_p}
+        send "&4&lStraciłeś całą manę!" to {_p}
+        set {mana::%{_p}'s uuid%} to 0 
+        apply poison to {_p} for 30 second
+        apply blindness 1 to {_p} for 360 second 
+        apply nausea 2 to {_p} for 360 second
+        play sound "entity.ender_dragon.ambient" to {_p}
+        set {spellOutcome} to true
+        
+command /zaklecia:
+	trigger:
+		if {playerjob::%player's uuid%} is equal to 5:
+			play sound "entity.experience_orb.pickup" to player
+			open chest inventory with 3 rows named "&3&lZaklęcia" to player
+			wait 1 tick
+			set slot 1 of player's current inventory to diamond boots named "&4&lZaklęcie szybkości" with lore "Koszt 5 many"
+            
+			set slot 3 of player's current inventory to apple named "&4&lZaklęcie leczenia" with lore "Koszt 10 many"
+			
+			set slot 5 of player's current inventory to trident named "&4&lZaklęcie thora" with lore "Koszt 15 many"
+			
+			set slot 7 of player's current inventory to diamond sword named "&4&lZaklęcie siły" with lore "Koszt 20 many"
+            
+			set slot 9 of player's current inventory to glass named "&4&lZaklęcie niewidzialności" with lore "Koszt 20 many"
+			
+			set slot 17 of player's current inventory to poppy named "&4&lPrzyzwanie golema" with lore "Koszt 30 many"
+			
+			set slot 19 of player's current inventory to eye of ender named "&4&lZaklęcie ucieczki" with lore "Koszt 25 many"
+			
+			set slot 21 of player's current inventory to wither skeleton skull named "&4&lZaklęcie przyzwania" with lore "Koszt 40 many"
+			
+			set slot 23 of player's current inventory to ender pearl named "&4&lZaklęcie teleportacji" with lore "Koszt 45 many"
+			
+			set slot 25 of player's current inventory to enchanting table named "&4&lZaklęcie mędrca" with lore "Koszt 50 many"
+            
+			set slot 12 of player's current inventory to totem of undying named "&4&lMedytacja I" with lore "Regeneracja many &4(uwaga niebezpieczne zaklęcie)"
+			
+			set slot 13 of player's current inventory to totem of undying named "&4&lMedytacja II" with lore "Regeneracja many &4(uwaga niebezpieczne zaklęcie)"
+			
+			set slot 14 of player's current inventory to totem of undying named "&4&lMedytacja III" with lore "Regeneracja many &4(uwaga niebezpieczne zaklęcie)"
+				
+		else:
+			send "&7Musisz być magiem aby móc używać zaklęć"
+			
+on inventory click:
+    set {spellOutcome} to false
+    if name of event-inventory is "&3&lZaklęcia":
+        if the event-inventory slot is diamond boots named "&4&lZaklęcie szybkości" with lore "Koszt 5 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 4:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                                
+                play sound "item.firecharge.use"
+                apply speed 2 to the player for 120 second
+                send "&bCzujesz się niewiarygodnie szybki!"
+                remove 5 from {mana::%player's uuid%}
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is apple named "&4&lZaklęcie leczenia" with lore "Koszt 10 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 9:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                                
+                play sound "item.firecharge.use"
+                apply instant health 3 to the player for 0.1 second
+                send "&bJuż czujesz się lepiej!"
+                remove 10 from {mana::%player's uuid%}
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is trident named "&4&lZaklęcie thora" with lore "Koszt 15 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 14:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                                
+                play sound "item.firecharge.use"
+                set {_loc} to location of targeted block
+                strike lightning at {_loc}
+                send "&bBUM!!!!"
+                remove 15 from {mana::%player's uuid%}
+                
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is diamond sword named "&4&lZaklęcie siły" with lore "Koszt 20 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 19:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                                
+                play sound "item.firecharge.use"
+                apply strength 3 to the player for 20 second
+                send "&bCzujesz się niezwykle silny!"
+                remove 20 from {mana::%player's uuid%}
+                
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is glass named "&4&lZaklęcie niewidzialności" with lore "Koszt 20 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 19:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                                
+                play sound "item.firecharge.use"
+                apply invisibility 1 without particles to the player for 6 minutes
+                send "&bCzujesz jak zanikasz!"
+                remove 20 from {mana::%player's uuid%}
+                
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is poppy named "&4&lPrzyzwanie golema" with lore "Koszt 30 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 29:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                                
+                play sound "item.firecharge.use"
+                send "&bPrzyzwałeś super golema tylko go nie bij!!!"
+                remove 30 from {mana::%player's uuid%}
+                set {_loc} to location of targeted block
+                spawn iron golem at {_loc}
+                apply resistance 2 to the last spawned iron golem for 9999 minutes
+                
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is eye of ender named "&4&lZaklęcie ucieczki" with lore "Koszt 25 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 24:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                
+                play sound "item.firecharge.use"
+                send "&bRozpoczynasz ucieczkę!"
+                remove 25 from {mana::%player's uuid%}
+                apply levitation 4 to the player for 90 second
+                wait 93 second
+                apply slow falling to the player for 30 second
+                
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is wither skeleton skull named "&4&lZaklęcie przyzwania" with lore "Koszt 40 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 39:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop                
+                play sound "item.firecharge.use"
+                send "&bPrzyzywasz demona!!!"
+                remove 40 from {mana::%player's uuid%}
+                set {_loc} to location of targeted block
+                spawn ravager at {_loc}
+                set name of the last spawned ravager to "&4&lDemon"
+                set the last spawned wither skeleton on fire
+                apply resistance 1 to the last spawned ravager for 9999 minutes
+                apply jump boost 3 to the last spawned ravager for 9999 minutes
+                apply speed 2 to the last spawned ravager for 9999 minutes
+                apply strength to the last spawned ravager for 9999 minutes         
+                apply fire resistance to the last spawned ravager for 9999 minutes
+                loop 3 times:
+                    wait 2 second
+                    summon wither skeleton at {_loc} 
+                
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is ender pearl named "&4&lZaklęcie teleportacji" with lore "Koszt 45 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 44:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop
+                play sound "item.firecharge.use"
+                send "&2Ładowanie teleportacji...!"
+                wait 2 second
+                send "&bTeleportacja udana!"
+                remove 45 from {mana::%player's uuid%}
+                set {_loc} to location of targeted block
+                teleport player at {_loc}  
+            else:
+                send "&4Masz za mało many!"
+          
+        else if the event-inventory slot is enchanting table named "&4&lZaklęcie mędrca" with lore "Koszt 50 many":
+            cancel event
+            if {mana::%player's uuid%} is greater than 49:
+                spell_negative(player)
+                if {spellOutcome} = true:
+                    stop
+                play sound "item.firecharge.use"
+                execute console command "xp give %player% 4200"
+                send "&bCzujesz napływ wiedzy!"
+                remove 50 from {mana::%player's uuid%}
+                chance of 5%:
+                    send "&4&lO nie zaklęcie miało niespodziewane efekty!"
+                    send "&4&lStraciłeś całą manę!"
+                    set {mana::%player's uuid%} to 0
+                    apply poison to the player for 30 second
+                    apply blindness 1 to the player for 360 second
+                    apply nausea 2 to the player for 360 second
+                    
+            else:
+                send "&4Masz za mało many!"
+                
+        else if the event-inventory slot is totem of undying named "&4&lMedytacja I" with lore "Regeneracja many &4(uwaga niebezpieczne zaklęcie)":
+            cancel event
+            if {meditate::%player's uuid%} is false:
+                if {jobrank::%player's uuid%} is greater than 9:
+                    if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                        set {meditate::%player's uuid%} to true
+                        loop 10 times:
+                            if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                                add 1 to {mana::%player's uuid%}
+                                send "&6&lOtrzymałeś manę!"
+                                apply instant damage 2 to the player for 1 tick
+                                apply blindness 1 to the player for 40 second
+                                apply nausea 2 to the player for 40 second
+                            else:
+                                apply instant damage 2 to the player for 1 tick
+                                apply blindness 1 to the player for 40 second
+                                apply nausea 2 to the player for 40 second
+                            wait 30 second
+                        set {meditate::%player's uuid%} to false
+                            
+                    else:
+                        send "&4Masz maksymalną ilość many!"
+                else:
+                    send "&4Musisz mieć 10 poziom pracy..."
+            else:
+                send "&4Jesteś już w trakcie medytacji"
+                
+        else if the event-inventory slot is totem of undying named "&4&lMedytacja II" with lore "Regeneracja many &4(uwaga niebezpieczne zaklęcie)":
+            cancel event
+            if {meditate::%player's uuid%} is false:
+                if {jobrank::%player's uuid%} is greater than 19:
+                    if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                        set {meditate::%player's uuid%} to true
+                        loop 10 times:
+                            if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                                add 2 to {mana::%player's uuid%}
+                                send "&6&lOtrzymałeś manę!"
+                                apply instant damage 1 to the player for 1 tick
+                                apply blindness 1 to the player for 40 second
+                                apply nausea 2 to the player for 40 second
+                            else:
+                                apply instant damage 1 to the player for 1 tick
+                                apply blindness 1 to the player for 40 second
+                                apply nausea 2 to the player for 40 second
+                            wait 25 second
+                        set {meditate::%player's uuid%} to false
+                                
+                            
+                    else:
+                        send "&4Masz maksymalną ilość many!"
+                else:
+                    send "&4Musisz mieć 20 poziom pracy..."
+            else:
+                send "&4Jesteś już w trakcie medytacji"
+            
+        else if the event-inventory slot is totem of undying named "&4&lMedytacja III" with lore "Regeneracja many &4(uwaga niebezpieczne zaklęcie)":
+            cancel event
+            if {meditate::%player's uuid%} is false:
+                if {jobrank::%player's uuid%} is greater than 39:
+                    if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                        set {meditate::%player's uuid%} to true
+                        loop 10 times:
+                            if {mana::%player's uuid%} is lower than {jobrank::%player's uuid%}:
+                                add 3 to {mana::%player's uuid%}
+                                send "&6&lOtrzymałeś manę!"
+                                apply poison 1 to the player for 30 second
+                                apply blindness 1 to the player for 30 second
+                                apply nausea 1 to the player for 30 second
+                            else:
+                                apply poison 1 to the player for 30 second
+                                apply blindness 1 to the player for 30 second
+                                apply nausea 1 to the player for 30 second
+                            wait 20 second
+                        set {meditate::%player's uuid%} to false
+                                
+                            
+                    else:
+                        send "&4Masz maksymalną ilość many!"
+                else:
+                    send "&4Musisz mieć 40 poziom pracy..."
+            else:
+                send "&4Jesteś już w trakcie medytacji"
+        else:
+            play sound "entity.horse.hurt" to player
+            cancel event
+    delete {spellOutcome}

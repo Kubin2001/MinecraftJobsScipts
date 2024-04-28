@@ -1,0 +1,54 @@
+on damage of wither skeleton:
+	if display name of victim is "&4&lUpadły":
+		chance of 25%:
+			send "&4&lZostałeś podrzucony" to the attacker
+			apply levitation 5 to the attacker for 3 second
+			apply slow falling 1 to the attacker for 15 second
+			apply wither 1 to the attacker for 5 second
+			apply nausea 1 to the attacker for 5 second
+			teleport victim at the attacker
+			set the tool of the victim to bow of power 6 ,punch 2 ,curse of vanishing 1 and flame 2
+			play sound "entity.enderman.teleport" to attacker
+			wait 7 second 
+			set the tool of the victim to iron sword of sharpness 4 ,knockback 2 ,curse of vanishing 1 and fire aspect 2
+on damage of piglin brute:
+	if display name of victim is "&4&lNiszczyciel":
+		chance of 15%:
+			summon tnt at attacker
+on damage of enderman:
+	if display name of victim is "&4&lPożeracz":
+		chance of 25%:
+			spawn wither skeleton at attacker
+			apply darkness 1 to the attacker for 20 second
+			apply slowness 2 to the attacker for 20 second
+			apply weakness 2 to the attacker for 20 second
+on damage of vex:
+	if display name of victim is "&4&lZjawa" or "&4&lDuch endu":
+		chance of 30%:
+			spawn vex at attacker
+			apply levitation 1 to the attacker for 10 second
+			apply poison 1 to the attacker for 20 second
+            
+on damage of evoker:
+	if display name of victim is "&4&lNekromanta":
+		chance of 5%:
+			spawn zombie at attacker
+			apply regeneration 1 to the victim for 10 second
+		chance of 5%:
+			spawn skeleton at attacker
+			apply regeneration 1 to the victim for 10 second
+		chance of 5%:
+			spawn zoglin at attacker
+			apply regeneration 1 to the victim for 10 second
+		chance of 5%:
+			spawn phantom at attacker
+			apply regeneration 1 to the victim for 10 second
+		chance of 5%:
+			summon fireball at victim
+			apply regeneration 1 to the victim for 10 second
+		chance of 15%:
+			set {_boslock} to the attacker's location
+			wait 5 second
+			teleport victim at {_boslock}
+			apply regeneration 1 to the victim for 10 second
+			
