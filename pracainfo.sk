@@ -4,19 +4,19 @@ command /pracainfo:
 		set {_neededxp} to round({_neededxp})
 		if {playerjob::%player's uuid%} is equal to 1:
 			send "&7Aktualny zawód: &6Górnik" to player
-			send "&7Do następnej wypłaty: %{blockBreaks::%player's uuid%}% /200" to player
+			send "&7Do następnej wypłaty: %{jobprogress::%player's uuid%}% /200" to player
 			
 		else if {playerjob::%player's uuid%} is equal to 2:
 			send "&7Aktualny zawód: &6Łowca" to player
-			send "&7Do następnej wypłaty: %{mobkills::%player's uuid%}% / 10" to player
+			send "&7Do następnej wypłaty: %{jobprogress::%player's uuid%}% / 10" to player
 			
 		else if {playerjob::%player's uuid%} is equal to 3:
 			send "&7Aktualny zawód: &6Budowniczy" to player
-			send "&7Do następnej wypłaty: %{blockPleaced::%player's uuid%}% /25" to player
+			send "&7Do następnej wypłaty: %{jobprogress::%player's uuid%}% /25" to player
 			
 		else if {playerjob::%player's uuid%} is equal to 4:
 			send "&7Aktualny zawód: &6Farmer" to player
-			send "&7Do następnej wypłaty: %{blockFarmed::%player's uuid%}% /20 " to player
+			send "&7Do następnej wypłaty: %{jobprogress::%player's uuid%}% /20 " to player
 			
 		else if {playerjob::%player's uuid%} is equal to 5:
 			send "&7Aktualny zawód: &6Mag" to player
@@ -24,13 +24,20 @@ command /pracainfo:
 			
 		else if {playerjob::%player's uuid%} is equal to 6:
 			send "&7Aktualny zawód: &6Rzeźnik" to player
-			send "&7Do następnej wypłaty: %{animals_killed::%player's uuid%}% /5 " to player
-            
+			send "&7Do następnej wypłaty: %{jobprogress::%player's uuid%}% /5 " to player
+			
 		else if {playerjob::%player's uuid%} is equal to 7:
 			send "&7Aktualny zawód: &6Zabójca" to player
-            
+			
 		else if {playerjob::%player's uuid%} is equal to 8:
 			send "&7Aktualny zawód: &6Odkrywca" to player
+			
+		else if {playerjob::%player's uuid%} is equal to 9:
+			send "&7Aktualny zawód: &6Drwal" to player
+			send "&7Do następnej wypłaty: %{jobprogress::%player's uuid%}% /50" to player
+		
+		else if {playerjob::%player's uuid%} is equal to 10:
+			send "&7Aktualny zawód: &6Kowal" to player
 			
 		else:
 			send "&7Aktualny zawód: &4Nie masz pracy" to player

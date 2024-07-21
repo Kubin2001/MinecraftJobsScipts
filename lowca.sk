@@ -1,11 +1,11 @@
 on death of skeleton, spider ,creeper, enderman or zombie:
 	attacker is a player
 	if {playerjob::%attacker's uuid%} is equal to 2:
-		add 1 to {mobkills::%attacker's uuid%}
-		if {mobkills::%attacker's uuid%} is greater than 9:
+		add 1 to {jobprogress::%attacker's uuid%}
+		if {jobprogress::%attacker's uuid%} is greater than 9:
 			set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
 			set {_neededxp} to round({_neededxp})
-			set {mobkills::%attacker's uuid%} to 0
+			set {jobprogress::%attacker's uuid%} to 0
 			set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
 			set attacker's balance to attacker's balance + {_totalMoney}
 			send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
@@ -18,7 +18,7 @@ on death of skeleton, spider ,creeper, enderman or zombie:
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -26,11 +26,11 @@ on death of skeleton, spider ,creeper, enderman or zombie:
 on death of drowned,cave spider, wither skeleton ,pillager,blaze or vindicator:
 	attacker is a player
 	if {playerjob::%attacker's uuid%} is equal to 2:
-		add 2 to {mobkills::%attacker's uuid%}
-		if {mobkills::%attacker's uuid%} is greater than 9:
+		add 2 to {jobprogress::%attacker's uuid%}
+		if {jobprogress::%attacker's uuid%} is greater than 9:
 			set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
 			set {_neededxp} to round({_neededxp})
-			set {mobkills::%attacker's uuid%} to 0
+			set {jobprogress::%attacker's uuid%} to 0
 			set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
 			set attacker's balance to attacker's balance + {_totalMoney}
 			send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
@@ -43,7 +43,7 @@ on death of drowned,cave spider, wither skeleton ,pillager,blaze or vindicator:
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -51,11 +51,11 @@ on death of drowned,cave spider, wither skeleton ,pillager,blaze or vindicator:
 on death of ghast, ravager,evoker or piglin brute:
 	attacker is a player
 	if {playerjob::%attacker's uuid%} is equal to 2:
-		add 5 to {mobkills::%attacker's uuid%}
-		if {mobkills::%attacker's uuid%} is greater than 9:
+		add 5 to {jobprogress::%attacker's uuid%}
+		if {jobprogress::%attacker's uuid%} is greater than 9:
 			set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
 			set {_neededxp} to round({_neededxp})
-			set {mobkills::%attacker's uuid%} to 0
+			set {jobprogress::%attacker's uuid%} to 0
 			set {_totalMoney} to 1 * {joblevel::%attacker's uuid%}
 			set attacker's balance to attacker's balance + {_totalMoney}
 			send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
@@ -68,7 +68,7 @@ on death of ghast, ravager,evoker or piglin brute:
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -90,7 +90,7 @@ on death of warden, or elder guardian:
 			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 			
 			if {jobrank::%attacker's uuid%} is greater than 70:
-				set attacker's balance to attacker's balance + 560
+				add 560 to attacker's balance
 				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 				set {jobrank::%attacker's uuid%} to 70
 				set {joblevel::%attacker's uuid%} to 8
@@ -112,12 +112,12 @@ on death of wither, or ender dragon:
 			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 			
 			if {jobrank::%attacker's uuid%} is greater than 70:
-				set attacker's balance to attacker's balance + 560
+				add 560 to attacker's balance
 				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 				set {jobrank::%attacker's uuid%} to 70
 				set {joblevel::%attacker's uuid%} to 8
                     
-on death of vex,piglin brute,wither skeleton,evoker or enderman:
+on death of vex,piglin brute,wither skeleton,evoker,cave spider or enderman:
 	if display name of victim is "&4&lNiszczyciel":
 		attacker is a player
 		if {playerjob::%attacker's uuid%} is equal to 2:
@@ -135,7 +135,7 @@ on death of vex,piglin brute,wither skeleton,evoker or enderman:
 				add 1 to {jobrank::%attacker's uuid%}
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -157,7 +157,7 @@ on death of vex,piglin brute,wither skeleton,evoker or enderman:
 				add 1 to {jobrank::%attacker's uuid%}
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -179,7 +179,7 @@ on death of vex,piglin brute,wither skeleton,evoker or enderman:
 				add 1 to {jobrank::%attacker's uuid%}
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -201,7 +201,7 @@ on death of vex,piglin brute,wither skeleton,evoker or enderman:
 				add 1 to {jobrank::%attacker's uuid%}
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
@@ -223,8 +223,29 @@ on death of vex,piglin brute,wither skeleton,evoker or enderman:
 				add 1 to {jobrank::%attacker's uuid%}
 				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 				if {jobrank::%attacker's uuid%} is greater than 70:
-					set attacker's balance to attacker's balance + 560
+					add 560 to attacker's balance
 					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 					set {jobrank::%attacker's uuid%} to 70
 					set {joblevel::%attacker's uuid%} to 8
-		
+                         
+	else if display name of victim is "&4&lKrólowa roju":
+		attacker is a player
+		if {playerjob::%attacker's uuid%} is equal to 2:
+			set {_neededxp} to {joblevel::%attacker's uuid%} * {jobrank::%attacker's uuid%}
+			set {_neededxp} to round({_neededxp})
+			set {_totalMoney} to 90 * {joblevel::%attacker's uuid%}
+			set attacker's balance to attacker's balance + {_totalMoney}
+			send "Otrzymałeś %{_totalMoney}%$ za pracę " to attacker
+			send "&6&lPokonałeś &4&lKrólową Roju &6&lgratulacje!" to attacker
+			drop 1 stone hoe of sharpness 5 named "&4&lKieł Królowej Roju" at victim
+			add 50 to {jobxp::%attacker's uuid%}
+			if {jobxp::%attacker's uuid%} is greater than {_neededxp} -1:
+				set {jobxp::%attacker's uuid%} to 0
+				add 0.1 to {joblevel::%attacker's uuid%}
+				add 1 to {jobrank::%attacker's uuid%}
+				send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
+				if {jobrank::%attacker's uuid%} is greater than 70:
+					add 560 to attacker's balance
+					send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
+					set {jobrank::%attacker's uuid%} to 70
+					set {joblevel::%attacker's uuid%} to 8

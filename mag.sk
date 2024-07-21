@@ -17,7 +17,7 @@ on enchant:
                 add 1 to {jobrank::%player's uuid%}
                 send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
                 if {jobrank::%player's uuid%} is greater than 70:
-                    set player's balance to player's balance + 560
+                    add 560 to players's balance
                     send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
                     set {jobrank::%player's uuid%} to 70
                     set {joblevel::%player's uuid%} to 8
@@ -36,7 +36,7 @@ on enchant:
                 add 1 to {jobrank::%player's uuid%}
                 send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
                 if {jobrank::%player's uuid%} is greater than 70:
-                    set player's balance to player's balance + 560
+                    add 560 to players's balance
                     send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
                     set {jobrank::%player's uuid%} to 70
                     set {joblevel::%player's uuid%} to 8
@@ -56,7 +56,7 @@ on enchant:
                 add 1 to {jobrank::%player's uuid%}
                 send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
                 if {jobrank::%player's uuid%} is greater than 70:
-                    set player's balance to player's balance + 560
+                    add 560 to players's balance
                     send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
                     set {jobrank::%player's uuid%} to 70
                     set {joblevel::%player's uuid%} to 8
@@ -81,7 +81,7 @@ on death of evoker or witch:
 			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 			
 			if {jobrank::%attacker's uuid%} is greater than 70:
-				set attacker's balance to attacker's balance + 560
+				add 560 to attacker's balance
 				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 				set {jobrank::%attacker's uuid%} to 70
 				set {joblevel::%attacker's uuid%} to 8

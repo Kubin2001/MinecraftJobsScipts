@@ -1,0 +1,7 @@
+on damage of player:
+	if attacker is a player:
+		set {-nazwa} to {company::%victim's uuid%}
+		set {-nazwa2} to {company::%attacker's uuid%}
+		if {-nazwa} = {-nazwa2}:
+			cancel event
+			send "&7Nie możesz atakować członka twojej kompani handlowej" to attacker

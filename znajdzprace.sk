@@ -3,21 +3,25 @@ command /praca:
     play sound "entity.experience_orb.pickup" to player
     open chest inventory with 3 rows named "&2&lWybierz Pracę" to player
     wait 1 tick
-    set slot 1 of player's current inventory to iron pickaxe named "&4&lGórnik" with lore "&7Zarabia za kopanie kamienia i jego pochodnych"
+    set slot 0 of player's current inventory to iron pickaxe named "&4&lGórnik" with lore "&7Zarabia za kopanie kamienia i jego pochodnych"
 	
-    set slot 3 of player's current inventory to bow named "&4&lŁowca" with lore "&7Zarabia za zabijanie wrogich mobów"
+    set slot 2 of player's current inventory to bow named "&4&lŁowca" with lore "&7Zarabia za zabijanie wrogich mobów"
 	
-    set slot 5 of player's current inventory to brick named "&4&lBudowniczy" with lore "&7Zarabia za stawianie bloków"
+    set slot 4 of player's current inventory to brick named "&4&lBudowniczy" with lore "&7Zarabia za stawianie bloków"
 	
-    set slot 7 of player's current inventory to wooden hoe named "&4&lFarmer" with lore "&7Zarabia za zbieranie plonów"
+    set slot 6 of player's current inventory to wooden hoe named "&4&lFarmer" with lore "&7Zarabia za zbieranie plonów"
 	
-    set slot 19 of player's current inventory to book of mending named "&4&lMag" with lore "&7Zarabia za enchantowanie i zabijanie innych magów"
+    set slot 8 of player's current inventory to iron axe named "&4&lDrwal" with lore "&7Zarabia za ścinanie drewna"
+	
+    set slot 18 of player's current inventory to book of mending named "&4&lMag" with lore "&7Zarabia za enchantowanie i zabijanie innych magów"
     
-    set slot 21 of player's current inventory to raw beef named "&4&lRzeźnik" with lore "&7Zarabia za zabijanie zwierząt i sprzedawanie mięsa"
+    set slot 20 of player's current inventory to raw beef named "&4&lRzeźnik" with lore "&7Zarabia za zabijanie zwierząt i sprzedawanie mięsa"
     
-    set slot 23 of player's current inventory to diamond sword named "&4&lZabójca" with lore "&7Zarabia za zabijanie graczy"
+    set slot 22 of player's current inventory to diamond sword named "&4&lZabójca" with lore "&7Zarabia za zabijanie graczy"
     
-    set slot 25 of player's current inventory to leather boots named "&4&lOdkrywca" with lore "&7Zarabia za odkrywanie mapy"
+    set slot 24 of player's current inventory to leather boots named "&4&lOdkrywca" with lore "&7Zarabia za odkrywanie mapy"
+	
+    set slot 26 of player's current inventory to barrier named "&4&lSoon"
 	
     set slot 12 of player's current inventory to iron ingot named "&4&lCodzienny bonus pracy" with lore "Wymagany 10 poziom pracy"
 			
@@ -42,7 +46,7 @@ on inventory click:
             if {playerjob::%player's uuid%} is not set:
                 play sound "entity.experience_orb.pickup" to player
                 set {playerjob::%player's uuid%} to 1
-                set {blockBreaks::%player's uuid%} to 0
+                set {jobprogress::%player's uuid%} to 0
                 send "&7Od teraz pracujesz jako górnik"
 				
             else if {playerjob::%player's uuid%} is equal to 1:
@@ -58,7 +62,7 @@ on inventory click:
             if {playerjob::%player's uuid%} is not set:
                 play sound "entity.experience_orb.pickup" to player
                 set {playerjob::%player's uuid%} to 2
-                set {mobkills::%player's uuid%} to 0
+                set {jobprogress::%player's uuid%} to 0
                 send "&7Od teraz pracujesz jako lowca"
 				
             else if {playerjob::%player's uuid%} is equal to 2:
@@ -74,7 +78,7 @@ on inventory click:
             if {playerjob::%player's uuid%} is not set:
                 play sound "entity.experience_orb.pickup" to player
                 set {playerjob::%player's uuid%} to 3
-                set {blockPleaced::%player's uuid%} to 0
+                set {jobprogress::%player's uuid%} to 0
                 send "&7Od teraz pracujesz jako budowniczy"
 				
             else if {playerjob::%player's uuid%} is equal to 3:
@@ -90,7 +94,7 @@ on inventory click:
             if {playerjob::%player's uuid%} is not set:
                 play sound "entity.experience_orb.pickup" to player
                 set {playerjob::%player's uuid%} to 4
-                set {blockFarmed::%player's uuid%} to 0
+                set {jobprogress::%player's uuid%} to 0
                 execute console command "lp user %player% permission set essentials.warps.skupupraw true"
                 send "&7Od teraz pracujesz jako farmer"
                 send "&7Od teraz masz dostęp do /warp skupupraw"
@@ -125,7 +129,7 @@ on inventory click:
             if {playerjob::%player's uuid%} is not set:
                 play sound "entity.experience_orb.pickup" to player
                 set {playerjob::%player's uuid%} to 6
-                set {animals_killed::%player's uuid%} to 0
+                set {jobprogress::%player's uuid%} to 0
                 execute console command "lp user %player% permission set essentials.warps.skupmiesa true"
                 send "&7Od teraz pracujesz jako rzeźnik"
                 send "&7 Od teraz masz dostęp do /warp skupmiesa"
@@ -169,6 +173,28 @@ on inventory click:
             else:
                 play sound "entity.horse.hurt" to player
                 send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+				
+        else if the event-inventory slot is iron axe named "&4&lDrwal" with lore "&7Zarabia za ścinanie drewna":
+            cancel event
+            if {playerjob::%player's uuid%} is not set:
+                play sound "entity.experience_orb.pickup" to player
+                set {playerjob::%player's uuid%} to 9
+                set {jobprogress::%player's uuid%} to 0
+                send "&7Od teraz pracujesz jako drwal"
+                send "&7Odblokowałeś dostęp do skupu drewna" to player
+                execute console command "lp user %player% permission set essentials.warps.skupdrewna true"
+                
+            else if {playerjob::%player's uuid%} is equal to 9:
+                play sound "entity.horse.hurt" to player
+                send "&7Już pracujesz jako drwal"
+                    
+            else:
+                play sound "entity.horse.hurt" to player
+                send "&7 Musisz najpierw opuścić swoją aktualną pracę"
+                
+        else if the event-inventory slot is barrier named "&4&lSoon":
+            cancel event
+            send "&7Ten zawód nie jest jeszcze gotowy prosimy o cierpliwość"
                 
         else if the event-inventory slot is iron ingot named "&4&lCodzienny bonus pracy" with lore "Wymagany 10 poziom pracy":
             cancel event
@@ -215,6 +241,20 @@ on inventory click:
                         play sound "entity.experience_orb.pickup" to player
                         give player 64 firework rocket
                         send "&6 Odebrałeś dzisiejszy bonus!"
+						
+                    else if {playerjob::%player's uuid%} is equal to 9:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 64 oak log
+                        give player 64 birch log
+                        give player 64 spruce log
+                        give player 64 jungle log
+                        give player 64 acacia log
+                        give player 64 dark oak log
+                        give player 64 mangrove log
+                        give player 64 cherry log
+                        send "&6 Odebrałeś dzisiejszy bonus!"
+                        
+                    
                     set {cooldown1::%player's uuid%} to 24 hours from now
                 else: 
                     set {_waited} to difference between {cooldown1::%player's uuid%} and now
@@ -232,45 +272,42 @@ on inventory click:
                     if {playerjob::%player's uuid%} is equal to 1:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 netherite ingot
-                        send "&6 Odebrałeś bonus!"
                         
                     else if {playerjob::%player's uuid%} is equal to 2:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 bow of mending 1 and infinity 1 named "&4&lŁuk łowcy"
-                        send "&6 Odebrałeś bonus!"
                     
                     else if {playerjob::%player's uuid%} is equal to 3:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 netherite block
                         give player 5 diamond block
-                        send "&6 Odebrałeś bonus!"
 						
                     else if {playerjob::%player's uuid%} is equal to 4:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 cookie of mending named "&6&lMagiczne ciastko"
-                        send "&6 Odebrałeś bonus!"
-                        
                         
                     else if {playerjob::%player's uuid%} is equal to 5:
                         play sound "entity.experience_orb.pickup" to player
                         give player 2 potion named "&b&lMikstrura many"
-                        send "&6 Odebrałeś bonus!"
                         
                     else if {playerjob::%player's uuid%} is equal to 6:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 netherite axe of looting 4
-                        send "&6 Odebrałeś bonus!"
                         
                     else if {playerjob::%player's uuid%} is equal to 7:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 netherite sword of sharpness 5 and looting 3 named "&4&lZatrute ostrze"
-                        send "&6 Odebrałeś bonus!"
                     
                     else if {playerjob::%player's uuid%} is equal to 8:
                         play sound "entity.experience_orb.pickup" to player
                         give player 1 netherite boots of feather falling 5 named "&4&lButy szybkości"
-                        send "&6 Odebrałeś bonus!"
+                    
+                    else if {playerjob::%player's uuid%} is equal to 9:
+                        play sound "entity.experience_orb.pickup" to player
+                        give player 1 netherite axe of efficiency 6 and unbreaking 4 named "&4&lSiekiera Drwala"
+                    
                     set {cooldown2::%player's uuid%} to 5 days from now
+                    send "&6 Odebrałeś pięciodniowy bonus!"
                     
                 else: 
                     set {_waited} to difference between {cooldown2::%player's uuid%} and now
@@ -293,7 +330,8 @@ on inventory click:
                     else if {playerjob::%player's uuid%} is equal to 2:
                         if player is in world "world_nether":
                             send "&6 Użyłeś umiejętności!"
-                            set {_x} to random integer from 0 to 4
+                            #set {_x} to random integer from 0 to 5
+                            set {_x} to 3
                             if {_x} is equal to 0:
                                 play sound "entity.ender_dragon.ambient" to player
                                 send "&4&lWalczysz z niszycielem nie stój w miejscu!!!"
@@ -363,6 +401,21 @@ on inventory click:
                                 set chestplate of the last spawned evoker to diamond chestplate
                                 set leggings of the last spawned evoker to diamond leggings
                                 set boots of the last spawned evoker to diamond boots
+                            
+                            else if {_x} is equal to 5:
+                                play sound "entity.ender_dragon.ambient" to player
+                                send "&4&lWalczysz z królową roju zabij ją zanim wezwie posiłki!!!"
+                                spawn cave spider at player
+                                set name of the last spawned cave spider to "&4&lKrólowa roju"
+                                set {_lastspawnedspider} to last spawned cave spider
+                                execute console command "/attribute %uuid of {_lastspawnedspider}% minecraft:generic.scale base set 4"
+                                apply jump boost 4 to the last spawned cave spider for 9999 minutes
+                                apply health boost 10 to the last spawned cave spider for 9999 minutes
+                                set the helmet of last spawned cave spider to netherite helmet of thorns 6 and curse of vanishing 1
+                                set the chestplate of last spawned cave spider to netherite chestplate of thorns 6 and curse of vanishing 1
+                                set the leggings of last spawned cave spider to netherite leggings of thorns 6 and curse of vanishing 1
+                                set the boots of last spawned cave spider to netherite boots of thorns 6 and curse of vanishing 1
+							
                         else:
                             send "&4Musisz być w netherze aby odbyć walkę"
                             play sound "entity.horse.hurt" to player
@@ -402,6 +455,14 @@ on inventory click:
                         play sound "entity.experience_orb.pickup" to player
                         send "&b&lZresetowano aktualną lokalizację możesz wybrać nową"
                         delete {loc %player's uuid%}
+                        
+                    else if {playerjob::%player's uuid%} is equal to 9:
+                        play sound "entity.experience_orb.pickup" to player
+                        apply resistance 1 to the player for 1 hour
+                        send "&b&lAktywowano umiejętność korowej skóry"
+                        delete {loc %player's uuid%}
+                        
+                        
                     if {_mageflag} is not set:
                         set {cooldown3::%player's uuid%} to 2 hours from now
 						

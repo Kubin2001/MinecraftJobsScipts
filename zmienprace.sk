@@ -3,20 +3,20 @@ command /opuscprace:
 		if {company::%player's uuid%} is not set:
 			if {playerjob::%player's uuid%} is equal to 1:
 				send "&7Już nie pracujesz jako górnik!!!"
-				delete {blockBreaks::%player's uuid%}
+				delete {jobprogress::%player's uuid%}
 				
 			else if {playerjob::%player's uuid%} is equal to 2:
 				send "&7Już nie pracujesz jako łowca!!!"
-				delete {mobkills::%player's uuid%}
+				delete {jobprogress::%player's uuid%}
 				
 			else if {playerjob::%player's uuid%} is equal to 3:
 				send "&7Już nie pracujesz jako budowniczy!!!"
-				delete {blockPleaced::%player's uuid%}
+				delete {jobprogress::%player's uuid%}
 				
 			else if {playerjob::%player's uuid%} is equal to 4:
 				send "&7Już nie pracujesz jako farmer!!!"
 				execute console command "lp user %player% permission unset essentials.warps.skupupraw"
-				delete {blockFarmed::%player's uuid%}
+				delete {jobprogress::%player's uuid%}
 				
 			else if {playerjob::%player's uuid%} is equal to 5:
 				send "&7Już nie pracujesz jako mag!!!"
@@ -26,7 +26,7 @@ command /opuscprace:
 			else if {playerjob::%player's uuid%} is equal to 6:
 				send "&7Już nie pracujesz jako rzeźnik!!!"
 				execute console command "lp user %player% permission unset essentials.warps.skupmiesa"
-				delete {animals_killed::%player's uuid%}
+				delete {jobprogress::%player's uuid%}
 				
 			else if {playerjob::%player's uuid%} is equal to 7:
 				send "&7Już nie pracujesz jako zabójca!!!"
@@ -34,6 +34,15 @@ command /opuscprace:
 			else if {playerjob::%player's uuid%} is equal to 8:
 				send "&7Już nie pracujesz jako odkrywca!!!"
 				delete {loc %player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 9:
+				send "&7Już nie pracujesz jako drwal!!!"
+				execute console command "lp user %player% permission unset essentials.warps.skupdrewna"
+				delete {jobprogress::%player's uuid%}
+				
+			else if {playerjob::%player's uuid%} is equal to 10:
+				send "&7Już nie pracujesz jako kowal!!!"
+				delete {jobprogress::%player's uuid%}
 				
 			else:
 				send "&7Nie jesteś aktualnie zatrudniony!!!"

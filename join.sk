@@ -1,0 +1,22 @@
+on join:
+    if {meditate::%player's uuid%} is true:
+        set {meditate::%player's uuid%} to false
+        send "&4&lZ racji wylogowania medytacja została przerwana"
+    loop all players:
+        if loop-player's name is "Kubin2000":
+            play sound "entity.experience_orb.pickup" at location of loop-player
+    create bossbar titled "&2&lWitaj na TRIBETONCRAFT &b&l%player%" and id "welcome.%uuid of player%" for player with progress 100 with colors green
+    wait 10 second
+    remove bossbar "welcome.%uuid of player%"
+
+    execute console command "pvptoggle admin on %player% "
+    if {dailycooldown::%player's uuid%} < now:
+        send "&6&lMożesz odebrać dzisiejszą nagrodę za logowanie wpisz /nagroda"
+	
+on first join:
+	give 1 netherite scrap of mending named "&2&lZestaw Naprawczy" to player
+	send "&6&lWITAJ NA TRIBETONCRAFT!"
+	send "&2Wpisz /warp info aby dowiedzieć się podstaw!"
+	broadcast "&7&l%player% &3po raz pierwszy dołączył/a na serwer!"
+	play sound "music_disc.pigstep" to player
+           

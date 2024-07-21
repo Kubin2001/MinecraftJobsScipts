@@ -1,0 +1,49 @@
+on break of stone,andesite,diorite,granite,tuff or deepslate:
+	chance of 0.04%:
+		drop 1 block of iron of mending named "&6&lIron Case"
+		send "&6Znalazles Iron Case.." to player
+
+on place of block of iron:
+	if name of player's tool contains "&6&lIron Case":
+		set block to air
+		wait 0.2 second
+		play sound "block.note_block.bass" to player
+		set block to iron block
+		wait 0.2 second
+		play sound "block.note_block.bass" to player
+		set block to iron ore
+		wait 0.2 second
+		play sound "block.note_block.bass" to player
+		set block to gold block
+		wait 0.2 second
+		play sound "block.note_block.bass" to player
+		set block to white concrete
+		wait 0.2 second
+		play sound "block.note_block.bass" to player
+		set block to air
+		send "&6-------------------------" to player
+		
+		chance of 100%:
+			drop 18 iron ingot
+			send "&6otrzymałeś &618 &AŻelaza!" to player
+			
+		chance of 50%:
+			drop 4 diamond
+			send "&6otrzymałeś &64 Diamenty!" to player
+			
+		chance of 10%:
+			drop 2 golden apple
+			send "&6otrzymałeś &6dwa refy!" to player
+			
+		chance of 5%:
+			drop 9 tnt
+			send "&6otrzymałeś &69 TNT!!" to player
+			
+		chance of 2%:
+			drop 1 netherite scrap of mending named "&2&lZestaw Naprawczy"
+			send "&6Zestaw naprawczy!!" to player
+			
+		chance of 1%:
+			drop 1 beacon 
+			send "&6otrzymałeś &6 BEACON miałeś na to 1 procent szans!" to player
+		send "&6-------------------------" to player

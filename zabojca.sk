@@ -46,7 +46,7 @@ on death of player:
 			add 1 to {jobrank::%attacker's uuid%}
 			send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to attacker
 			if {jobrank::%attacker's uuid%} is greater than 70:
-				set attacker's balance to attacker's balance + 560
+				add 560 to attacker's balance
 				send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to attacker
 				set {jobrank::%attacker's uuid%} to 70
 				set {joblevel::%attacker's uuid%} to 8

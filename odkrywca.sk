@@ -47,7 +47,7 @@ command /podroz:
 						send "&6&lZdobyłeś nowy poziom będziesz zarabiać więcej!" to player
 						
 						if {jobrank::%player's uuid%} is greater than 70:
-							set player's balance to player's balance + 560
+							add 560 to player's balance
 							send "&6&lZdobyłeś maksymalny poziom otrzymałeś 560 monet za zdobyte xp" to player
 							set {jobrank::%player's uuid%} to 70
 							set {joblevel::%player's uuid%} to 8

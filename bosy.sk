@@ -52,3 +52,28 @@ on damage of evoker:
 			teleport victim at {_boslock}
 			apply regeneration 1 to the victim for 10 second
 			
+on damage of cave spider:
+	if display name of victim is "&4&lKrólowa roju":
+		chance of 25%:
+			spawn spider at victim
+			apply resistance 6 to the victim for 2 second
+		chance of 25%:
+			spawn cave spider at victim
+			apply resistance 6 to the victim for 2 second
+		chance of 25%:
+			spawn silverfish at victim
+			apply resistance 6 to the victim for 2 second
+		chance of 20%:
+			set block at attacker's location to cobweb
+			
+		chance of 10%:
+			set {_boslock} to the attacker's location
+			wait 5 second
+			teleport victim at {_boslock}
+			apply regeneration 1 to the victim for 10 second
+
+on damage of player:
+	if display name of attacker is "&4&lKrólowa roju":
+		apply wither 4 to the victim for 10 second
+
+			
